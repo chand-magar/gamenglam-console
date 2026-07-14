@@ -1,0 +1,92 @@
+.formBody {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 4px 0;
+}
+
+/* ── Icon input with live preview ─────────────────── */
+.iconInputWrapper {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.iconInputWrapper .gng-input {
+  flex: 1;
+}
+
+.iconPreviewBox {
+  width: 42px;
+  height: 42px;
+  border: 1.5px solid #E5E7EB;
+  border-radius: 10px;
+  background: #F9FAFB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: #6C35DE;
+  flex-shrink: 0;
+}
+
+.iconHint {
+  font-size: 12px;
+  color: #9CA3AF;
+  margin: 0;
+}
+
+.iconHint code {
+  font-family: monospace;
+  background: #F3F4F6;
+  padding: 1px 5px;
+  border-radius: 4px;
+  color: #6C35DE;
+}
+
+/* ── Sort order spinner ───────────────────────────── */
+.spinnerWrapper {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid #E5E7EB;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 38px;
+}
+
+.spinnerBtn {
+  width: 36px;
+  height: 100%;
+  background: #F9FAFB;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: #6B7280;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+
+.spinnerBtn:hover { background: #F3F4F6; color: #6C35DE; }
+
+.spinnerInput {
+  flex: 1;
+  height: 100%;
+  border: none;
+  border-left: 1.5px solid #E5E7EB;
+  border-right: 1.5px solid #E5E7EB;
+  text-align: center;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #111827;
+  outline: none;
+  background: #ffffff;
+  -moz-appearance: textfield;
+}
+
+.spinnerInput::-webkit-outer-spin-button,
+.spinnerInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}

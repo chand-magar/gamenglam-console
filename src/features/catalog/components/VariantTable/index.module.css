@@ -1,0 +1,33 @@
+/* Variant table specific only */
+
+.tdSku {
+  font-family: monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6C35DE;
+}
+
+.tdPrice {
+  font-weight: 700;
+  color: #111827;
+}
+
+.tdWeight { color: #6B7280; }
+
+.dash { color: #D1D5DB; }
+
+.stockNormal {
+  font-weight: 600;
+  color: #374151;
+}
+
+.stockLow {
+  font-size: 12px;
+  font-weight: 700;
+  color: #DC2626;
+  background: #FEF2F2;
+  padding: 3px 8px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+}

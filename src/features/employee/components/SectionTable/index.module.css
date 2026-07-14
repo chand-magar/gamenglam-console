@@ -1,0 +1,44 @@
+.nameCell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.iconWrapper {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #EDE9FE;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6C35DE;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.sectionName {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.iconPreview {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #6B7280;
+  font-size: 13px;
+}
+
+.iconName {
+  font-size: 12px;
+  font-family: monospace;
+  color: #6B7280;
+}
+
+.orderBadge {
+  font-size: 13px;
+  font-weight: 700;
+  color: #374151;
+}

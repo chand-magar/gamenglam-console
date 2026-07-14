@@ -1,0 +1,196 @@
+.sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: linear-gradient(180deg, #1a0938 0%, #2d1275 60%, #3B1FA3 100%);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  transition: width 0.25s ease;
+}
+
+.sidebarCollapsed {
+  width: 60px;
+  overflow: visible;
+}
+
+/* Ambient glow */
+.sidebar::before {
+  content: '';
+  position: absolute;
+  top: -80px;
+  right: -80px;
+  width: 260px;
+  height: 260px;
+  background: radial-gradient(circle, rgba(108, 53, 222, 0.35) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.sidebar::after {
+  content: '';
+  position: absolute;
+  bottom: 40px;
+  left: -60px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(59, 31, 163, 0.3) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Nav section */
+.navSection {
+  padding: 16px 10px 6px;
+  position: relative;
+  z-index: 1;
+}
+
+.nav {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* li must be relative so tooltip positions from it */
+.navLi {
+  position: relative;
+  list-style: none;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 10px;
+  background-color: transparent;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.15s ease, color 0.15s ease;
+  position: relative;
+  letter-spacing: 0.1px;
+  white-space: nowrap;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.navItem:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+.navItemActive {
+  background: rgba(108, 53, 222, 0.5);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.navItemActive:hover {
+  background: rgba(108, 53, 222, 0.55);
+}
+
+.navItemActive::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 20%;
+  height: 60%;
+  width: 3px;
+  background: #a78bfa;
+  border-radius: 0 3px 3px 0;
+}
+
+.navIcon {
+  font-size: 15px;
+  width: 18px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.navLabel {
+  transition: opacity 0.2s ease;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.navLabelHidden {
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
+}
+
+.navBadge {
+  margin-left: auto;
+  background: #6C35DE;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 20px;
+  min-width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+  transition: opacity 0.2s ease;
+}
+
+.navBadgeHidden {
+  opacity: 0;
+  width: 0;
+}
+
+/* ── Tooltip ─────────────────────────────────────────── */
+.tooltip {
+  position: absolute;
+  left: calc(100% + 12px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: #1a0938;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 8px;
+  white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  pointer-events: none;
+  z-index: 999;
+
+  /* Hidden by default */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.15s ease, visibility 0.15s ease;
+}
+
+/* Arrow pointing left */
+.tooltip::before {
+  content: '';
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 5px solid transparent;
+  border-right-color: #1a0938;
+}
+
+/* Show on li hover */
+.navLi:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.07);
+  margin: 4px 10px;
+  position: relative;
+  z-index: 1;
+}

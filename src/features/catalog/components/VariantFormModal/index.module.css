@@ -1,0 +1,142 @@
+/* ── Two-column layout ───────────────────────────── */
+.twoCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  min-height: 360px;
+}
+
+.leftCol {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.rightCol {
+  background: #F5F3FF;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  border: 1px solid #EDE9FE;
+}
+
+/* ── Attribute values panel ──────────────────────── */
+.attrHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.attrTitle {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.attrLoading {
+  font-size: 13px;
+  color: #9CA3AF;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.attrEmpty {
+  font-size: 13px;
+  color: #9CA3AF;
+  margin: 0;
+}
+
+.attrGroups {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.attrGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.attrGroupLabel {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: #9CA3AF;
+  margin: 0;
+}
+
+.pillRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12.5px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.pillSelected {
+  font-weight: 600;
+  background: #6C35DE;
+  color: #ffffff;
+  border: none;
+}
+
+.pillSelected:hover { background: #5B2DD1; }
+
+.pillUnselected {
+  font-weight: 500;
+  background: #ffffff;
+  color: #374151;
+  border: 1.5px solid #E5E7EB;
+}
+
+.pillUnselected:hover { border-color: #6C35DE; color: #6C35DE; }
+
+.pillX {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  opacity: 0.8;
+}
+
+.colorDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.4);
+  flex-shrink: 0;
+}
+
+.addAttrBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  height: 36px;
+  border: 1.5px dashed #C4B5FD;
+  border-radius: 10px;
+  background: transparent;
+  color: #6C35DE;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  margin-top: auto;
+}
+
+.addAttrBtn:hover { background: #EDE9FE; border-color: #6C35DE; }

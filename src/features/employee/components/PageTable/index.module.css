@@ -1,0 +1,29 @@
+.pageName {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.sectionCell {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.sectionName {
+  font-size: 13px;
+  color: #374151;
+  font-weight: 500;
+}
+
+.noSection {
+  font-size: 12.5px;
+  color: #9CA3AF;
+  font-family: monospace;
+}
+
+.orderBadge {
+  font-size: 13px;
+  font-weight: 700;
+  color: #374151;
+}

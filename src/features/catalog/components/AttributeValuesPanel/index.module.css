@@ -1,0 +1,265 @@
+/* AttributeValuesPanel specific styles only */
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* ── Top cards ──────────────────────────────────────── */
+.topGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid #F0F0F0;
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+
+.cardTitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: #374151;
+  margin: 0 0 12px;
+}
+
+.overviewHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.overviewHeader .cardTitle { margin: 0; }
+
+.overviewRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 0;
+  border-bottom: 1px solid #F9FAFB;
+}
+
+.overviewRow:last-child { border-bottom: none; }
+
+.overviewLabel {
+  font-size: 12.5px;
+  color: #9CA3AF;
+  font-weight: 500;
+}
+
+.overviewValue {
+  font-size: 13px;
+  color: #374151;
+  font-weight: 600;
+}
+
+.overviewCount {
+  font-size: 14px;
+  color: #111827;
+  font-weight: 700;
+}
+
+.paletteRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.swatch {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  box-shadow: 0 0 0 1px #E5E7EB;
+}
+
+.swatchMore {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1.5px dashed #D1D5DB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9CA3AF;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+/* ── Table card ─────────────────────────────────────── */
+.tableCard {
+  background: #ffffff;
+  border: 1px solid #F0F0F0;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table thead th {
+  padding: 12px 16px;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #6B7280;
+  background: #F9FAFB;
+  border-bottom: 1px solid #F0F0F0;
+  text-align: left;
+}
+
+.table tbody td {
+  padding: 11px 16px;
+  font-size: 13.5px;
+  color: #374151;
+  border-bottom: 1px solid #F9FAFB;
+  vertical-align: middle;
+}
+
+.table tbody tr:hover { background: #FAFAFA; }
+
+.loadingCell {
+  text-align: center;
+  padding: 30px;
+  color: #9CA3AF;
+}
+
+.valueId {
+  font-family: 'Courier New', monospace;
+  font-size: 12.5px;
+  color: #6C35DE;
+  font-weight: 600;
+}
+
+.colorPreview {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.colorDot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid rgba(0,0,0,0.08);
+  flex-shrink: 0;
+}
+
+.colorHex {
+  font-size: 12px;
+  font-family: 'Courier New', monospace;
+  color: #6B7280;
+}
+
+.sortOrder {
+  font-weight: 600;
+  color: #374151;
+}
+
+/* ── Panel-specific action buttons ───────────────────── */
+.saveBtn      { color: #16A34A; }
+.saveBtn:hover { background: #F0FDF4; }
+
+.cancelEditBtn      { color: #9CA3AF; }
+.cancelEditBtn:hover { background: #F3F4F6; }
+
+.dragBtn      { color: #D1D5DB; cursor: grab; }
+.dragBtn:hover { background: #F3F4F6; }
+
+/* ── Editing row ─────────────────────────────────────── */
+.editingRow { background: #FAF5FF; }
+
+.inlineInput {
+  width: 100%;
+  height: 32px;
+  padding: 0 10px;
+  border: 1.5px solid #E5E7EB;
+  border-radius: 6px;
+  font-size: 13px;
+  outline: none;
+  background: #ffffff;
+}
+
+.inlineInput:focus { border-color: #6C35DE; }
+
+.inlineInputSmall {
+  width: 70px;
+  height: 32px;
+  padding: 0 8px;
+  border: 1.5px solid #E5E7EB;
+  border-radius: 6px;
+  font-size: 12.5px;
+  outline: none;
+  background: #ffffff;
+}
+
+.inlineInputSmall:focus { border-color: #6C35DE; }
+
+/* ── Color cell ──────────────────────────────────────── */
+.colorCell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.colorPicker {
+  width: 32px;
+  height: 32px;
+  border: 1.5px solid #E5E7EB;
+  border-radius: 6px;
+  padding: 0;
+  cursor: pointer;
+  background: none;
+}
+
+/* ── Add row ─────────────────────────────────────────── */
+.addRow { background: #FAFAFA; }
+
+.addIcon {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #F3F4F6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9CA3AF;
+  font-size: 11px;
+}
+
+.addValueBtn {
+  width: 100%;
+  height: 34px;
+  background: #6C35DE;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background 0.15s;
+}
+
+.addValueBtn:hover:not(:disabled) { background: #5B2DD1; }
+.addValueBtn:disabled             { opacity: 0.6; cursor: not-allowed; }
+
+.tableFooter {
+  padding: 12px 16px;
+  font-size: 12.5px;
+  color: #9CA3AF;
+  border-top: 1px solid #F0F0F0;
+}

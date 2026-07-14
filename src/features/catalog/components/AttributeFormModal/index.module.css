@@ -1,0 +1,82 @@
+/* Attribute form specific only */
+
+.formBody {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 4px 0;
+}
+
+/* ── Toggles ─────────────────────────────────────────── */
+.togglesRow {
+  display: flex;
+  gap: 24px;
+}
+
+.toggleLabel {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggleTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 2px;
+}
+
+.toggleSub {
+  font-size: 11.5px;
+  color: #9CA3AF;
+  margin: 0;
+}
+
+/* ── Sort order spinner ───────────────────────────────── */
+.spinnerWrapper {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid #E5E7EB;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 38px;
+}
+
+.spinnerBtn {
+  width: 36px;
+  height: 100%;
+  background: #F9FAFB;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: #6B7280;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+
+.spinnerBtn:hover { background: #F3F4F6; color: #6C35DE; }
+
+.spinnerInput {
+  flex: 1;
+  height: 100%;
+  border: none;
+  border-left: 1.5px solid #E5E7EB;
+  border-right: 1.5px solid #E5E7EB;
+  text-align: center;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #111827;
+  outline: none;
+  background: #ffffff;
+  -moz-appearance: textfield;
+}
+
+.spinnerInput::-webkit-outer-spin-button,
+.spinnerInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}

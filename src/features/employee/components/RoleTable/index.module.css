@@ -1,0 +1,40 @@
+.roleName {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.sectionPills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.sectionPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  background: #EDE9FE;
+  color: #5B21B6;
+  border-radius: 20px;
+  font-size: 11.5px;
+  font-weight: 500;
+}
+
+.morePill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  background: #F3F4F6;
+  color: #6B7280;
+  border-radius: 20px;
+  font-size: 11.5px;
+  font-weight: 500;
+}
+
+.pageCount {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+}

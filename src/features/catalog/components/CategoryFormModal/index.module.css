@@ -1,0 +1,53 @@
+.formBody {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.imageUpload {
+  border: 1.5px dashed #D1D5DB;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  transition: border-color 0.15s, background-color 0.15s;
+  background: #FAFAFA;
+}
+
+.imageUpload:hover {
+  border-color: #6C35DE;
+  background: #f9f5ff;
+}
+
+.imagePlaceholder {
+  width: 64px;
+  height: 64px;
+  border-radius: 10px;
+  background: #F3F4F6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9CA3AF;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.imageInfo { flex: 1; }
+
+.imageTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 4px;
+}
+
+.imageSubtitle {
+  font-size: 12px;
+  color: #9CA3AF;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.fileInput { display: none; }
