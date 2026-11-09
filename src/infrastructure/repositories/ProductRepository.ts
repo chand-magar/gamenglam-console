@@ -44,4 +44,15 @@ export class ProductRepository implements IProductRepository {
   async delete(id: string): Promise<void> {
     await axiosInstance.delete(`/products/${id}`);
   }
+
+  async uploadImage(productId: string, file: File): Promise<Product> {
+    const form = new FormData();
+    form.append('image', file);
+
+    const { data } = await axiosInstance.post<ApiResponse<Product>>(
+      `/products/${productId}/image`,
+      form,
+    );
+    return data.data;
+  }
 }

@@ -11,22 +11,24 @@ export interface AttributeFilters {
 }
 
 export interface CreateAttributePayload {
-  category_no:    number;
+  category_id:    string;   // ← UUID
   attribute_name: string;
   code:           string;
   type:           string;
   is_required:    boolean;
   is_variant:     boolean;
+  show_in_filter: boolean;
   sort_order:     number;
 }
 
 export interface UpdateAttributePayload {
-  category_no?:    number;
+  category_id?:    string;  // ← UUID
   attribute_name?: string;
   code?:           string;
   type?:           string;
   is_required?:    boolean;
   is_variant?:     boolean;
+  show_in_filter: boolean;
   sort_order?:     number;
 }
 

@@ -1,0 +1,25 @@
+.alertBanner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  background: #FFFBEB;
+  border: 1px solid #FDE68A;
+  border-radius: 10px;
+  font-size: 13.5px;
+  color: #92400E;
+}
+
+.totalCount {
+  font-size: 13px;
+  color: #6B7280;
+  font-weight: 500;
+}
+
+.filters {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}

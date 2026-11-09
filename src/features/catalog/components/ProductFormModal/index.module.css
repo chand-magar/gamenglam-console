@@ -1,38 +1,183 @@
-/* Product form specific only */
+/* ── Layout ──────────────────────────────────────── */
+.twoCol {
+  display: grid;
+  grid-template-columns: 1fr 240px;
+  gap: 24px;
+}
 
-.formBody {
+.leftCol {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 14px;
 }
 
-/* ── Featured toggle ──────────────────────────────── */
-.featuredLabel {
+.rightCol {
   display: flex;
-  align-items: flex-start;
+  flex-direction: column;
   gap: 12px;
-  padding: 12px 14px;
-  border: 1.5px solid #E5E7EB;
-  border-radius: 10px;
-  background: #FAFAFA;
+}
+
+/* ── Featured checkbox ───────────────────────────── */
+.featuredRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 8px;
+}
+
+.featuredCheckbox {
+  width: 16px;
+  height: 16px;
+  accent-color: #6C35DE;
+  flex-shrink: 0;
+  cursor: pointer;
+  margin: 0;
+}
+
+.featuredLabel {
+  font-size: 13px;
+  color: #374151;
+  font-weight: 500;
   cursor: pointer;
   user-select: none;
-  transition: border-color 0.15s;
-  height: 100%;
-  box-sizing: border-box;
 }
 
-.featuredLabel:hover { border-color: #6C35DE; }
+/* ── Image header ────────────────────────────────── */
+.imgHeader {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
 
-.toggleTitle {
+.imgTitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* ── Image preview ───────────────────────────────── */
+.imgPreviewBox {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1.5px solid #E5E7EB;
+  background: #F9FAFB;
+}
+
+.imgPreview {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.imgActions {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  display: flex;
+  gap: 5px;
+}
+
+.imgActionBtn {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  transition: background 0.15s;
+}
+
+.imgActionBtn:hover      { background: rgba(0, 0, 0, 0.8); }
+.imgActionDelete:hover   { background: rgba(239, 68, 68, 0.9) !important; }
+
+.pendingBadge {
+  position: absolute;
+  bottom: 7px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  background: rgba(245, 158, 11, 0.9);
+  border-radius: 20px;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+}
+
+/* ── Upload zone ─────────────────────────────────── */
+.imgUploadZone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 100%;
+  aspect-ratio: 1;
+  border: 2px dashed #D1D5DB;
+  border-radius: 12px;
+  background: #FAFAFA;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.imgUploadZone:hover {
+  border-color: #6C35DE;
+  background: #F5F3FF;
+}
+
+.imgUploadText {
   font-size: 13px;
   font-weight: 600;
   color: #374151;
-  margin: 0 0 2px;
+  margin: 0;
 }
 
-.toggleSub {
-  font-size: 11.5px;
+.imgUploadSub {
+  font-size: 11px;
   color: #9CA3AF;
   margin: 0;
+  text-align: center;
+}
+
+/* ── Tips ────────────────────────────────────────── */
+.imgTips {
+  background: #F9FAFB;
+  border: 1px solid #E5E7EB;
+  border-radius: 10px;
+  padding: 11px 13px;
+  margin-top: auto;
+}
+
+.imgTipsTitle {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #6B7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 7px;
+}
+
+.imgTipsList {
+  margin: 0;
+  padding-left: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.imgTipsList li {
+  font-size: 11px;
+  color: #6B7280;
 }

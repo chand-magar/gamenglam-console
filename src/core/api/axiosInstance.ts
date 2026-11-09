@@ -13,10 +13,10 @@ const processQueue = (error: unknown, token: string | null) => {
 };
 
 const axiosInstance: AxiosInstance = axios.create({
-  baseURL:  import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8000/api/v1',
-  timeout:  15000,
-  headers:  {
-    'Content-Type': 'application/json', // always JSON — never overridden
+  baseURL: import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8080/api/v1',
+  timeout: 15000,
+  headers: {
+    'Content-Type': 'application/json',
     'Accept':       'application/json',
   },
 });
@@ -29,9 +29,14 @@ axiosInstance.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${token}`;
   }
 
-  // Force Content-Type to always be application/json
-  // Prevents accidental multipart/form-data from FormData usage
-  config.headers['Content-Type'] = 'application/json';
+  // Only force JSON content type when NOT sending FormData
+  // FormData needs browser to set Content-Type with boundary automatically
+  if (!(config.data instanceof FormData)) {
+    config.headers['Content-Type'] = 'application/json';
+  } else {
+    // Let browser set multipart/form-data with correct boundary
+    delete config.headers['Content-Type'];
+  }
 
   return config;
 });
@@ -52,8 +57,8 @@ axiosInstance.interceptors.response.use(
         });
       }
 
-      original._retry  = true;
-      isRefreshing     = true;
+      original._retry = true;
+      isRefreshing    = true;
 
       try {
         const refreshToken = tokenService.getRefreshToken();

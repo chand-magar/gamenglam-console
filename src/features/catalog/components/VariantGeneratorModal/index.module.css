@@ -1,0 +1,445 @@
+/* ── Overlay ─────────────────────────────────────────── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(3px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Modal ───────────────────────────────────────────── */
+.modal {
+  background: #ffffff;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 1350px;
+  max-height: calc(100vh - 40px);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.18), 0 4px 16px rgba(0,0,0,0.08);
+  overflow: hidden;
+  animation: slideUp 0.2s ease;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Header ──────────────────────────────────────────── */
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 20px 24px 0;
+  flex-shrink: 0;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0d0620;
+  margin: 0 0 3px;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: #9CA3AF;
+  margin: 0;
+}
+
+.closeBtn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: #F3F4F6;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6B7280;
+  font-size: 14px;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.closeBtn:hover { background: #E5E7EB; color: #111827; }
+
+/* ── Step bar ────────────────────────────────────────── */
+.stepBar {
+  display: flex;
+  align-items: center;
+  padding: 16px 24px;
+  flex-shrink: 0;
+  border-bottom: 1px solid #F3F4F6;
+}
+
+.stepItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #9CA3AF;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.stepActive { color: #6C35DE; }
+
+.stepDot {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #E5E7EB;
+  color: #6B7280;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.stepActive .stepDot {
+  background: #6C35DE;
+  color: #fff;
+}
+
+.stepLabel { white-space: nowrap; }
+
+.stepLine {
+  flex: 1;
+  height: 2px;
+  background: #E5E7EB;
+  margin: 0 12px;
+  min-width: 80px;
+}
+.stepLineDone { background: #6C35DE; }
+
+/* ── Body ────────────────────────────────────────────── */
+.body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0;
+}
+
+.stepContent {
+  padding: 16px 24px;
+}
+
+.helpText {
+  font-size: 13px;
+  color: #6B7280;
+  margin: 0 0 16px;
+  text-align: center;
+}
+
+/* ── Step 1 ──────────────────────────────────────────── */
+.attrGroup {
+  border: 1px solid #E5E7EB;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+
+.attrGroupHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  background: #F9FAFB;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.attrGroupLabel {
+  font-size: 12px;
+  font-weight: 700;
+  color: #374151;
+  letter-spacing: 0.05em;
+}
+
+.attrGroupCount {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6C35DE;
+}
+
+.pillRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 14px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  transition: all 0.15s;
+}
+
+.pillUnselected {
+  background: #F3F4F6;
+  color: #374151;
+  border-color: #E5E7EB;
+}
+.pillUnselected:hover {
+  background: #EDE9FE;
+  border-color: #6C35DE;
+  color: #6C35DE;
+}
+
+.pillSelected {
+  background: #6C35DE;
+  color: #fff;
+  border-color: #6C35DE;
+}
+
+.colorDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid rgba(0,0,0,0.15);
+  flex-shrink: 0;
+}
+
+.previewBanner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #F5F0FF;
+  border: 1px solid #DDD6FE;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #6C35DE;
+  margin-top: 8px;
+}
+
+/* ── Step 2 — Variant table ──────────────────────────── */
+/*
+  Columns: # | Combination | SKU | Cost | MRP | Selling | Stock | Weight | Images | Delete
+  Widths:  36 | 130        | 1fr | 75   | 75  | 80      | 65    | 65     | 68     | 32
+*/
+.variantHeader,
+.variantRow {
+  display: grid;
+  grid-template-columns: 36px 130px 1fr 75px 75px 80px 65px 65px 68px 32px;
+  gap: 6px;
+  align-items: center;
+  padding: 0 12px;
+}
+
+.variantHeader {
+  height: 36px;
+  background: #F9FAFB;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px 8px 0 0;
+  font-size: 10px;
+  font-weight: 700;
+  color: #6B7280;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.variantList {
+  border: 1px solid #E5E7EB;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  overflow: hidden;
+}
+
+.variantRow {
+  height: 48px;
+  border-bottom: 1px solid #F3F4F6;
+  background: #fff;
+  transition: background 0.1s;
+}
+.variantRow:last-child { border-bottom: none; }
+.variantRow:hover { background: #FAFAFA; }
+
+.variantNo {
+  font-size: 11px;
+  font-weight: 700;
+  color: #9CA3AF;
+  text-align: center;
+}
+
+.variantCombination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  align-items: center;
+}
+
+.attrPill {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 10px;
+  background: #EDE9FE;
+  color: #6C35DE;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* All inputs inside the row */
+.variantRow input[type="text"],
+.variantRow input[type="number"] {
+  width: 100%;
+  height: 32px;
+  padding: 0 6px;
+  font-size: 12px;
+  border: 1px solid #E5E7EB;
+  border-radius: 6px;
+  background: #fff;
+  color: #111827;
+  outline: none;
+  transition: border-color 0.15s;
+  box-sizing: border-box;
+}
+.variantRow input[type="text"]:focus,
+.variantRow input[type="number"]:focus {
+  border-color: #6C35DE;
+  box-shadow: 0 0 0 2px rgba(108,53,222,0.1);
+}
+.variantRow input[type="number"] { text-align: right; }
+
+/* ── Image cell ──────────────────────────────────────── */
+.variantImgCell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  height: 100%;
+}
+
+.variantImgUpload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  width: 56px;
+  height: 36px;
+  border: 1.5px dashed #D1D5DB;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 10px;
+  color: #9CA3AF;
+  transition: border-color 0.15s, background 0.15s;
+}
+.variantImgUpload:hover {
+  border-color: #6C35DE;
+  background: #F5F0FF;
+  color: #6C35DE;
+}
+
+.variantImgPreview {
+  position: relative;
+  width: 56px;
+  height: 36px;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid #E5E7EB;
+  flex-shrink: 0;
+}
+
+.variantImgThumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.variantImgCount {
+  position: absolute;
+  bottom: 1px;
+  right: 2px;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 1px 3px;
+  border-radius: 3px;
+}
+
+.variantImgClear {
+  position: absolute;
+  top: 1px;
+  right: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.55);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 7px;
+  padding: 0;
+}
+
+/* ── Delete button ───────────────────────────────────── */
+.removeBtn {
+  width: 28px;
+  height: 28px;
+  border: 1px solid #FEE2E2;
+  background: #FFF5F5;
+  color: #EF4444;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  transition: background 0.15s;
+  padding: 0;
+  flex-shrink: 0;
+  justify-self: center;
+}
+.removeBtn:hover { background: #FEE2E2; }
+
+/* ── Empty state ─────────────────────────────────────── */
+.empty {
+  text-align: center;
+  padding: 32px 16px;
+  color: #9CA3AF;
+  font-size: 13px;
+}
+
+/* ── Footer ──────────────────────────────────────────── */
+.footer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 24px;
+  border-top: 1px solid #F3F4F6;
+  flex-shrink: 0;
+}
+
+/* ── Column header helpers ───────────────────────────── */
+.variantHeaderNo         { text-align: center; }
+.variantHeaderCombination { }
+.variantHeaderSku        { }
+.variantHeaderField      { text-align: right; }

@@ -1,17 +1,18 @@
-import { DataTable } from '../../../../shared/components/DataTable';
+import { DataTable }  from '../../../../shared/components/DataTable';
 import type { Column } from '../../../../shared/components/DataTable';
 import type { ProductVariant } from '../../../../domain/entities/Product';
 import styles from './index.module.css';
 
 interface Props {
-  items:        ProductVariant[];
-  total:        number;
-  page:         number;
-  totalPages:   number;
-  isLoading:    boolean;
-  onEdit:       (item: ProductVariant) => void;
-  onDelete:     (item: ProductVariant) => void;
-  onPageChange: (page: number) => void;
+  items:         ProductVariant[];
+  total:         number;
+  page:          number;
+  totalPages:    number;
+  isLoading:     boolean;
+  variantImages: Record<string, string | null>; // ← add
+  onEdit:        (item: ProductVariant) => void;
+  onDelete:      (item: ProductVariant) => void;
+  onPageChange:  (page: number) => void;
 }
 
 const STATUS_MAP: Record<string, { label: string; cls: string }> = {
@@ -22,6 +23,7 @@ const STATUS_MAP: Record<string, { label: string; cls: string }> = {
 
 export const VariantTable = ({
   items, total, page, totalPages, isLoading,
+  variantImages, // ← add
   onEdit, onDelete, onPageChange,
 }: Props) => {
 
@@ -29,12 +31,38 @@ export const VariantTable = ({
     {
       key:    'no',
       title:  'No.',
-      width:  '56px',
+      width:  '52px',
       render: (_, index) => (
         <span className="gng-row-no">
           {String((page - 1) * 10 + index + 1).padStart(2, '0')}
         </span>
       ),
+    },
+    {
+      key:   'image',
+      title: 'Image',
+      width: '60px',
+      render: (row) => {
+        const url = variantImages[row.variant_id];
+        if (url === undefined) {
+          return <div className={styles.imgSkeleton} />;
+        }
+        if (!url) {
+          return (
+            <div className={styles.imgFallback}>
+              <i className="fa-regular fa-image" style={{ color: '#D1D5DB', fontSize: 14 }} />
+            </div>
+          );
+        }
+        return (
+          <img
+            src={url}
+            alt="Variant"
+            className={styles.imgThumb}
+            onError={(e) => { e.currentTarget.style.display = 'none'; }}
+          />
+        );
+      },
     },
     {
       key:      'sku',
@@ -45,13 +73,27 @@ export const VariantTable = ({
       ),
     },
     {
-      key:    'price_override',
-      title:  'Price Override',
-      align:  'right',
-      render: (row) => (
-        row.price_override != null
-          ? <span className={styles.tdPrice}>${row.price_override.toFixed(2)}</span>
-          : <span className={styles.dash}>—</span>
+      key:      'cost_price',
+      title:    'Cost',
+      sortable: true,
+      render:   (row) => (
+        <span className={styles.tdSku}>{row.cost_price}</span>
+      ),
+    },
+    {
+      key:      'mrp',
+      title:    'MRP',
+      sortable: true,
+      render:   (row) => (
+        <span className={styles.tdSku}>{row.mrp}</span>
+      ),
+    },
+    {
+      key:      'selling_price',
+      title:    'Selling Price',
+      sortable: true,
+      render:   (row) => (
+        <span className={styles.tdSku}>{row.selling_price}</span>
       ),
     },
     {

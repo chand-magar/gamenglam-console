@@ -1,0 +1,6 @@
+.formBody {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 4px 0;
+}

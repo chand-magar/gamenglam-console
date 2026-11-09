@@ -1,0 +1,17 @@
+.customerNo {
+  font-size: 13px;
+  color: #374151;
+  font-weight: 500;
+}
+
+.itemCount {
+  font-size: 13px;
+  color: #6B7280;
+  font-weight: 500;
+}
+
+.total {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111827;
+}

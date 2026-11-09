@@ -13,16 +13,14 @@ export interface CreateCategoryPayload {
   category_name: string;
   slug:          string;
   details?:      string;
-  parent_no?:    number | null;
-  image?:        File | null;
+  parent_id?:    string | null;
 }
 
 export interface UpdateCategoryPayload {
   category_name?: string;
   slug?:          string;
   details?:       string;
-  parent_no?:     number | null;
-  image?:         File | null;
+  parent_id?:     string | null;
 }
 
 export interface ICategoryRepository {

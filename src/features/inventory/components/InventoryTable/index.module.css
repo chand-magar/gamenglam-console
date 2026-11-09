@@ -1,0 +1,151 @@
+.nameCell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.productName {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0 0 4px;
+}
+
+.category {
+  font-size: 13px;
+  color: #6B7280;
+  font-weight: 500;
+}
+
+.price {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* ── Inline stock editor ─────────────────────────── */
+.stockDisplay {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border: 1.5px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.stockDisplay:hover {
+  border-color: #E5E7EB;
+  background: #F9FAFB;
+}
+
+.stockQty {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111827;
+  min-width: 24px;
+  text-align: center;
+}
+
+.stockZero { color: #EF4444; }
+.stockLow  { color: #F59E0B; }
+
+.stockEditor {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.stockSpinBtn {
+  width: 26px;
+  height: 26px;
+  border: 1.5px solid #E5E7EB;
+  border-radius: 6px;
+  background: #F9FAFB;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: #6B7280;
+  transition: background 0.15s;
+}
+
+.stockSpinBtn:hover { background: #F3F4F6; color: #6C35DE; }
+
+.stockInput {
+  width: 60px;
+  height: 28px;
+  border: 1.5px solid #6C35DE;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: #111827;
+  outline: none;
+  background: #fff;
+  -moz-appearance: textfield;
+}
+
+.stockInput::-webkit-outer-spin-button,
+.stockInput::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+.stockSaveBtn {
+  width: 26px;
+  height: 26px;
+  border: none;
+  border-radius: 6px;
+  background: #6C35DE;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  transition: background 0.15s;
+}
+
+.stockSaveBtn:hover    { background: #5B2DD1; }
+.stockSaveBtn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.stockCancelBtn {
+  width: 26px;
+  height: 26px;
+  border: 1.5px solid #E5E7EB;
+  border-radius: 6px;
+  background: #fff;
+  color: #9CA3AF;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  transition: background 0.15s;
+}
+
+.stockCancelBtn:hover { background: #FEF2F2; color: #EF4444; border-color: #EF4444; }
+
+/* ── Product image ───────────────────────────────── */
+.imgThumb {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid #E5E7EB;
+  display: block;
+  flex-shrink: 0;
+}
+
+.imgFallback {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: #F9FAFB;
+  border: 1px solid #E5E7EB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}

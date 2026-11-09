@@ -2,10 +2,12 @@ import { useNavigate } from 'react-router-dom';
 import { DataTable } from '../../../../shared/components/DataTable';
 import type { Column } from '../../../../shared/components/DataTable';
 import type { Attribute } from '../../../../domain/entities/Attribute';
+import type { Category } from '../../../../domain/entities/Category';
 import styles from './index.module.css';
 
 interface Props {
   items:        Attribute[];
+  categories:   Category[];
   total:        number;
   page:         number;
   totalPages:   number;
@@ -30,10 +32,11 @@ const BoolIcon = ({ value }: { value: boolean }) =>
     : <i className="fa-regular fa-circle-xmark" style={{ color: '#D1D5DB', fontSize: 16 }} />;
 
 export const AttributeTable = ({
-  items, total, page, totalPages, isLoading,
+  items, categories, total, page, totalPages, isLoading,
   onEdit, onDelete, onPageChange,
 }: Props) => {
   const navigate = useNavigate();
+  const categoryMap = Object.fromEntries(categories.map((c) => [c.category_id, c.category_name]));
 
   const columns: Column<Attribute>[] = [
     {
@@ -63,7 +66,9 @@ export const AttributeTable = ({
       key:    'category',
       title:  'Category',
       render: (row) => (
-        <span className={styles.categoryNo}>#{row.category_no}</span>
+        <span className={styles.categoryNo}>
+          {row.category_id ? (categoryMap[row.category_id] ?? '—') : '—'}
+        </span>
       ),
     },
     {

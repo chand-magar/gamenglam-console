@@ -6,7 +6,11 @@ import { PageFormModal } from '../../components/PageFormModal';
 import type { Page } from '../../../../domain/entities/Page';
 import type { PageFormValues } from '../../schemas/page.schemas';
 
-const PageListPage = () => {
+interface Props {
+  embedded?: boolean;
+}
+
+export const PageListPage = ({ embedded = false }: Props) => {
   const {
     items, total, page, totalPages,
     isLoading, isSubmitting, error,
@@ -56,74 +60,62 @@ const PageListPage = () => {
     setDeleteItem(null);
   };
 
-  const activeCount = items.filter((p:any) => p.status === 'A').length;
+  const activeCount = items.filter((p) => p.status === 'A').length;
 
-  return (
-    <div className="gng-page">
-
-      {/* Breadcrumb */}
-      <nav className="gng-breadcrumb">
-        <span className="gng-crumb-link">Dashboard</span>
-        <i className="fa-solid fa-chevron-right" />
-        <span className="gng-crumb-active">Pages</span>
-      </nav>
-
-      {/* Header */}
-      <div className="gng-page-header">
+  const inner = (
+    <>
+      <div className="gng-page-header" style={{ marginBottom: 0 }}>
         <div>
-          <h1 className="gng-page-title">Page Management</h1>
-          <p className="gng-page-subtitle">
-            Manage navigation pages and their section assignments.
-          </p>
+          {!embedded && <h1 className="gng-page-title">Page Management</h1>}
         </div>
         <button type="button" className="gng-btn-primary" onClick={handleOpenCreate}>
           <i className="fa-solid fa-plus" /> Add Page
         </button>
       </div>
 
-      {/* Stat cards */}
-      <div className="gng-stats-row">
-        <div className="gng-stat-card">
-          <div className="gng-stat-icon gng-stat-icon-purple">
-            <i className="fa-solid fa-file-lines" />
+      {!embedded && (
+        <div className="gng-stats-row">
+          <div className="gng-stat-card">
+            <div className="gng-stat-icon gng-stat-icon-purple">
+              <i className="fa-solid fa-file-lines" />
+            </div>
+            <div className="gng-stat-info">
+              <p className="gng-stat-label">Total Pages</p>
+              <p className="gng-stat-value">{isLoading ? '—' : total}</p>
+            </div>
           </div>
-          <div className="gng-stat-info">
-            <p className="gng-stat-label">Total Pages</p>
-            <p className="gng-stat-value">{isLoading ? '—' : total}</p>
+          <div className="gng-stat-card">
+            <div className="gng-stat-icon gng-stat-icon-green">
+              <i className="fa-solid fa-circle-check" />
+            </div>
+            <div className="gng-stat-info">
+              <p className="gng-stat-label">Active</p>
+              <p className="gng-stat-value">{isLoading ? '—' : activeCount}</p>
+            </div>
+          </div>
+          <div className="gng-stat-card">
+            <div className="gng-stat-icon gng-stat-icon-blue">
+              <i className="fa-solid fa-rectangle-list" />
+            </div>
+            <div className="gng-stat-info">
+              <p className="gng-stat-label">Sections</p>
+              <p className="gng-stat-value">{isLoading ? '—' : sections.length}</p>
+            </div>
+          </div>
+          <div className="gng-stat-card">
+            <div className="gng-stat-icon gng-stat-icon-orange">
+              <i className="fa-solid fa-triangle-exclamation" />
+            </div>
+            <div className="gng-stat-info">
+              <p className="gng-stat-label">Inactive</p>
+              <p className="gng-stat-value">
+                {isLoading ? '—' : items.filter((p) => p.status === 'I').length}
+              </p>
+            </div>
           </div>
         </div>
-        <div className="gng-stat-card">
-          <div className="gng-stat-icon gng-stat-icon-green">
-            <i className="fa-solid fa-circle-check" />
-          </div>
-          <div className="gng-stat-info">
-            <p className="gng-stat-label">Active</p>
-            <p className="gng-stat-value">{isLoading ? '—' : activeCount}</p>
-          </div>
-        </div>
-        <div className="gng-stat-card">
-          <div className="gng-stat-icon gng-stat-icon-blue">
-            <i className="fa-solid fa-rectangle-list" />
-          </div>
-          <div className="gng-stat-info">
-            <p className="gng-stat-label">Sections</p>
-            <p className="gng-stat-value">{isLoading ? '—' : sections.length}</p>
-          </div>
-        </div>
-        <div className="gng-stat-card">
-          <div className="gng-stat-icon gng-stat-icon-orange">
-            <i className="fa-solid fa-triangle-exclamation" />
-          </div>
-          <div className="gng-stat-info">
-            <p className="gng-stat-label">Inactive</p>
-            <p className="gng-stat-value">
-              {isLoading ? '—' : items.filter((p:any) => p.status === 'I').length}
-            </p>
-          </div>
-        </div>
-      </div>
+      )}
 
-      {/* Error */}
       {error && (
         <div className="gng-error-alert">
           <i className="fa-solid fa-circle-exclamation" />
@@ -134,23 +126,16 @@ const PageListPage = () => {
         </div>
       )}
 
-      {/* Toolbar */}
       <div className="gng-toolbar">
         <div className="gng-toolbar-left">
           <div className="gng-search-wrapper">
             <i className="fa-solid fa-magnifying-glass" />
-            <input
-              type="text"
-              placeholder="Search pages..."
-              className="gng-search-input"
-            />
+            <input type="text" placeholder="Search pages..." className="gng-search-input" />
           </div>
           <select className="gng-filter-select">
             <option value="">All Sections</option>
-            {sections.map((s:any) => (
-              <option key={s.section_no} value={s.section_no}>
-                {s.section_name}
-              </option>
+            {sections.map((s) => (
+              <option key={s.section_no} value={s.section_no}>{s.section_name}</option>
             ))}
           </select>
         </div>
@@ -158,13 +143,9 @@ const PageListPage = () => {
           <button type="button" className="gng-btn-secondary">
             <i className="fa-solid fa-filter" /> Filter
           </button>
-          <button type="button" className="gng-btn-secondary">
-            <i className="fa-solid fa-file-export" /> Export
-          </button>
         </div>
       </div>
 
-      {/* Table */}
       <PageTable
         items={items}
         sections={sections}
@@ -177,7 +158,6 @@ const PageListPage = () => {
         onPageChange={changePage}
       />
 
-      {/* Form Modal */}
       <PageFormModal
         open={modalOpen}
         onClose={() => setModalOpen(false)}
@@ -187,33 +167,20 @@ const PageListPage = () => {
         isSubmitting={isSubmitting}
       />
 
-      {/* Delete confirm */}
       {deleteItem && (
         <div className="gng-confirm-overlay">
           <div className="gng-confirm-box">
-            <div className="gng-confirm-icon">
-              <i className="fa-solid fa-trash-can" />
-            </div>
+            <div className="gng-confirm-icon"><i className="fa-solid fa-trash-can" /></div>
             <p className="gng-confirm-title">Delete Page</p>
             <p className="gng-confirm-text">
               Are you sure you want to delete{' '}
               <span className="gng-confirm-name">"{deleteItem.page_name}"</span>?
-              This may affect role permissions.
             </p>
             <div className="gng-confirm-actions">
-              <button
-                type="button"
-                className="gng-confirm-cancel"
-                onClick={() => setDeleteItem(null)}
-              >
+              <button type="button" className="gng-confirm-cancel" onClick={() => setDeleteItem(null)}>
                 Cancel
               </button>
-              <button
-                type="button"
-                className="gng-btn-danger"
-                onClick={handleDelete}
-                disabled={isSubmitting}
-              >
+              <button type="button" className="gng-btn-danger" onClick={handleDelete} disabled={isSubmitting}>
                 {isSubmitting
                   ? <><i className="fa-solid fa-spinner fa-spin" /> Deleting…</>
                   : <><i className="fa-solid fa-trash-can" /> Delete</>}
@@ -222,6 +189,19 @@ const PageListPage = () => {
           </div>
         </div>
       )}
+    </>
+  );
+
+  if (embedded) return <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>{inner}</div>;
+
+  return (
+    <div className="gng-page">
+      <nav className="gng-breadcrumb">
+        <span className="gng-crumb-link">Dashboard</span>
+        <i className="fa-solid fa-chevron-right" />
+        <span className="gng-crumb-active">Pages</span>
+      </nav>
+      {inner}
     </div>
   );
 };

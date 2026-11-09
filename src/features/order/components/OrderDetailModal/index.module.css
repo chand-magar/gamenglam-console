@@ -1,0 +1,493 @@
+.loading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 40px;
+  justify-content: center;
+  color: #9CA3AF;
+  font-size: 14px;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── Status progress ─────────────────────────────── */
+.progressRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  position: relative;
+  padding: 16px 4px 8px;
+  background: linear-gradient(to bottom, #FAFAFA, #ffffff);
+  border: 1px solid #F0F0F0;
+  border-radius: 12px;
+}
+
+.progressStep {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  flex: 1;
+}
+
+.progressDot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid #E5E7EB;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #D1D5DB;
+  z-index: 1;
+  transition: all 0.25s;
+  font-size: 11px;
+}
+
+.progressDotDone {
+  border-color: #6C35DE;
+  background: #6C35DE;
+  color: #ffffff;
+}
+
+.progressDotCurrent {
+  border-color: #6C35DE;
+  background: #EDE9FE;
+  color: #6C35DE;
+  box-shadow: 0 0 0 5px rgba(108, 53, 222, 0.1);
+}
+
+.progressLabel {
+  font-size: 10.5px;
+  color: #9CA3AF;
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.progressLabelDone {
+  color: #6C35DE;
+  font-weight: 700;
+}
+
+.progressLine {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  width: 100%;
+  height: 2px;
+  background: #E5E7EB;
+  z-index: 0;
+  transition: background 0.25s;
+}
+
+.progressLineDone { background: #6C35DE; }
+
+/* ── Final state banner ──────────────────────────── */
+.finalBanner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border-radius: 12px;
+  border: 1.5px solid transparent;
+}
+
+.finalBannerCancelled {
+  background: #FEF2F2;
+  border-color: #FCA5A5;
+}
+
+.finalBannerRefunded {
+  background: #F9FAFB;
+  border-color: #E5E7EB;
+}
+
+.finalIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.finalBannerCancelled .finalIcon {
+  background: #FEE2E2;
+  color: #DC2626;
+}
+
+.finalBannerRefunded .finalIcon {
+  background: #F3F4F6;
+  color: #6B7280;
+}
+
+.finalTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 3px;
+}
+
+.finalSub {
+  font-size: 12.5px;
+  color: #6B7280;
+  margin: 0;
+}
+
+/* ── Info strip ──────────────────────────────────── */
+.infoStrip {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: #F9FAFB;
+  border: 1px solid #F0F0F0;
+  border-radius: 12px;
+  overflow: hidden;
+  flex-wrap: wrap;
+}
+
+.infoChip {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 16px;
+  min-width: 0;
+}
+
+.infoChipWide {
+  flex: 1;
+}
+
+.infoDivider {
+  width: 1px;
+  height: 36px;
+  background: #E5E7EB;
+  flex-shrink: 0;
+}
+
+.infoLabel {
+  font-size: 10.5px;
+  color: #9CA3AF;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.infoValue {
+  font-size: 13px;
+  color: #111827;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.infoMono {
+  font-family: 'SFMono-Regular', 'Consolas', monospace;
+  font-size: 12px;
+  color: #6C35DE;
+}
+
+/* ── Section ─────────────────────────────────────── */
+.section {
+  border: 1px solid #F0F0F0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.sectionTitle {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #6B7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 10px 14px;
+  background: #F9FAFB;
+  border-bottom: 1px solid #F0F0F0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.sectionCount {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background: #EDE9FE;
+  color: #6C35DE;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+/* ── Items list ──────────────────────────────────── */
+.itemsList { padding: 2px 0; }
+
+.itemsEmpty {
+  padding: 20px 14px;
+  font-size: 13px;
+  color: #9CA3AF;
+  text-align: center;
+}
+
+.itemRow {
+  display: flex;
+  align-items: center;
+  padding: 10px 14px;
+  gap: 12px;
+  border-bottom: 1px solid #F9FAFB;
+  transition: background 0.15s;
+}
+
+.itemRow:last-child { border-bottom: none; }
+.itemRow:hover { background: #FAFAFA; }
+
+.itemImage {
+  width: 52px;
+  height: 52px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: #F9FAFB;
+  border: 1px solid #F0F0F0;
+}
+
+.itemImagePlaceholder {
+  width: 52px;
+  height: 52px;
+  border-radius: 10px;
+  flex-shrink: 0;
+  background: #F3F4F6;
+  border: 1px solid #E5E7EB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #D1D5DB;
+  font-size: 18px;
+}
+
+.itemInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+  min-width: 0;
+}
+
+.itemName {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.itemMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  text-align: left;
+}
+
+.itemAttrs {
+  font-size: 11.5px;
+  color: #9CA3AF;
+}
+
+.itemRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.itemQtyBlock {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.itemUnitPrice {
+  font-size: 12px;
+  color: #6B7280;
+}
+
+.itemQty {
+  font-size: 12px;
+  color: #9CA3AF;
+  font-weight: 500;
+}
+
+.itemPrice {
+  font-size: 14.5px;
+  font-weight: 800;
+  color: #111827;
+}
+
+/* ── Bottom row (Totals + Update side by side) ───── */
+.bottomRow {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.bottomSection {
+  flex: 1;
+}
+
+/* ── Totals ──────────────────────────────────────── */
+.totalsBox { padding: 2px 0; }
+
+.totalRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 14px;
+  font-size: 13px;
+  color: #374151;
+  border-bottom: 1px solid #F9FAFB;
+}
+
+.totalRow:last-child { border-bottom: none; }
+
+.totalDiscount {
+  color: #16A34A;
+  font-weight: 600;
+}
+
+.totalRowFinal {
+  font-size: 15px;
+  font-weight: 800;
+  color: #111827;
+  background: #F9FAFB;
+  border-top: 1px solid #E5E7EB !important;
+  border-bottom: none !important;
+}
+
+/* ── Update status form ──────────────────────────── */
+.updateForm {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px;
+}
+
+.updateError {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
+  background: #FEF2F2;
+  border: 1px solid #FECACA;
+  border-radius: 8px;
+  font-size: 12.5px;
+  color: #DC2626;
+}
+
+.updateError i { margin-top: 1px; flex-shrink: 0; }
+
+.updateField {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.updateLabel {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #6B7280;
+}
+
+/* ── Status history timeline ─────────────────────── */
+.historyList {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+}
+
+.historyRow {
+  display: flex;
+  gap: 12px;
+}
+
+.historyDotWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  width: 12px;
+}
+
+.historyDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #6C35DE;
+  border: 2px solid #EDE9FE;
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+.historyLine {
+  width: 2px;
+  flex: 1;
+  min-height: 16px;
+  background: linear-gradient(to bottom, #C4B5FD, #E5E7EB);
+  margin: 4px 0;
+}
+
+.historyRowLast .historyLine { display: none; }
+
+.historyContent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  padding-bottom: 16px;
+}
+
+.historyRowLast .historyContent {
+  padding-bottom: 0;
+}
+
+.historyHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.historyDate {
+  font-size: 11.5px;
+  color: #9CA3AF;
+  margin-left: auto;
+}
+
+.historyNote {
+  font-size: 12.5px;
+  color: #6B7280;
+  margin: 0;
+  font-style: italic;
+}

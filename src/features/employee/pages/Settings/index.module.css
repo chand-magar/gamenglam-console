@@ -1,0 +1,39 @@
+/* ── Tab bar ─────────────────────────────────────── */
+.tabBar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border-bottom: 2px solid #F0F0F0;
+  padding-bottom: 0;
+}
+
+.tabBtn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 20px;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #6B7280;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+
+.tabBtn:hover {
+  color: #6C35DE;
+}
+
+.tabBtnActive {
+  color: #6C35DE;
+  border-bottom-color: #6C35DE;
+}
+
+/* ── Tab content ─────────────────────────────────── */
+.tabContent {
+  min-height: 400px;
+}

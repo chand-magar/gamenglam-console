@@ -1,7 +1,6 @@
 export interface AttributeValue {
-  attribute_value_no: number;
   attribute_value_id: string;
-  attribute_no:        number;
+  attribute_id?:      string;   // ← add
   value:                string;
   display_label:        string;
   color_hex:             string | null;

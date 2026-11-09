@@ -34,12 +34,13 @@ export const AttributeFormModal = ({
   } = useForm<AttributeFormValues>({
     resolver: zodResolver(attributeSchema),
     defaultValues: {
-      category_no:    0,
+      category_id:    '',   // ← UUID string
       attribute_name: '',
       code:           '',
       type:           'select',
       is_required:    false,
       is_variant:     false,
+      show_in_filter: false,
       sort_order:     0,
     },
   });
@@ -47,22 +48,24 @@ export const AttributeFormModal = ({
   useEffect(() => {
     if (editItem) {
       reset({
-        category_no:    editItem.category_no,
+        category_id:    (editItem as any).category_id ?? '', // ← UUID
         attribute_name: editItem.attribute_name,
         code:           editItem.code,
         type:           editItem.type,
         is_required:    editItem.is_required,
         is_variant:     editItem.is_variant,
         sort_order:     editItem.sort_order,
+        show_in_filter: editItem.show_in_filter ?? false,
       });
     } else {
       reset({
-        category_no:    0,
+        category_id:    '',
         attribute_name: '',
         code:           '',
         type:           'select',
         is_required:    false,
         is_variant:     false,
+        show_in_filter: false,
         sort_order:     0,
       });
     }
@@ -99,21 +102,21 @@ export const AttributeFormModal = ({
               Category <span className="gng-required">*</span>
             </label>
             <select
-              id="category_no"
-              className={`gng-select ${errors.category_no ? 'gng-input-error' : ''}`}
-              {...register('category_no', { valueAsNumber: true })}
+              id="category_id"
+              className={`gng-select ${errors.category_id ? 'gng-input-error' : ''}`}
+              {...register('category_id')}
             >
-              <option value={0}>Select category</option>
+              <option value="">Select category</option>
               {categories.filter((c) => c.status === 'A').map((c) => (
-                <option key={c.category_id} value={c.category_no}>
+                <option key={c.category_id} value={c.category_id}>
                   {c.category_name}
                 </option>
               ))}
             </select>
-            {errors.category_no && (
+            {errors.category_id && (
               <p className="gng-error-text">
                 <i className="fa-solid fa-circle-exclamation" />
-                {errors.category_no.message}
+                {errors.category_id.message}
               </p>
             )}
           </div>
@@ -218,6 +221,26 @@ export const AttributeFormModal = ({
                 <div>
                   <p className={styles.toggleTitle}>Is Variant</p>
                   <p className={styles.toggleSub}>Affects inventory pricing</p>
+                </div>
+              </label>
+            )}
+          />
+
+          <Controller
+            name="show_in_filter"
+            control={control}
+            render={({ field }) => (
+              <label className={styles.toggleLabel}>
+                <button
+                  type="button"
+                  role="switch"
+                  aria-checked={field.value}
+                  className={`gng-toggle ${field.value ? 'gng-toggle-on' : ''}`}
+                  onClick={() => field.onChange(!field.value)}
+                />
+                <div>
+                  <p className={styles.toggleTitle}>Show in Filter</p>
+                  <p className={styles.toggleSub}>Display on storefront filter sidebar</p>
                 </div>
               </label>
             )}

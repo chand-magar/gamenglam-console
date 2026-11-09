@@ -1,18 +1,22 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useProductVariants } from '../../hooks/useProductVariants';
-import { useProducts } from '../../hooks/useProducts';
-import { useAttributes } from '../../hooks/useAttributes';
-import { VariantTable } from '../../components/VariantTable';
-import { VariantFormModal } from '../../components/VariantFormModal';
+import { useProductVariants }     from '../../hooks/useProductVariants';
+import { useProducts }            from '../../hooks/useProducts';
+import { useAttributes }          from '../../hooks/useAttributes';
+import { VariantTable }           from '../../components/VariantTable';
+import { VariantFormModal }       from '../../components/VariantFormModal';
+import { VariantGeneratorModal }  from '../../components/VariantGeneratorModal';
+import { VariantImageRepository } from '../../../../infrastructure/repositories/VariantImageRepository';
 import { AttributeValueRepository } from '../../../../infrastructure/repositories/AttributeValueRepository';
-import { VariantAttributeValueRepository } from '../../../../infrastructure/repositories/VariantAttributeValueRepository';
-import type { ProductVariant } from '../../../../domain/entities/Product';
-import type { AttributeValue } from '../../../../domain/entities/AttributeValue';
+import axiosInstance from '../../../../core/api/axiosInstance';
+import type { ProductVariant }    from '../../../../domain/entities/Product';
+import type { AttributeValue }    from '../../../../domain/entities/AttributeValue';
 import type { VariantFormValues } from '../../schemas/product.schemas';
+import type { PendingImage }      from '../../components/VariantImageUploader';
+import type { GeneratedVariant } from '../../components/VariantGeneratorModal';
 
 const avRepo  = new AttributeValueRepository();
-const vavRepo = new VariantAttributeValueRepository();
+const imgRepo = new VariantImageRepository();
 
 const LIMIT = 10;
 
@@ -23,15 +27,19 @@ const ProductVariantsPage = () => {
   const { items: products, fetch: fetchProducts } = useProducts();
   const {
     items, isLoading, isSubmitting, error,
-    fetch, create, update, remove, dismissError,
+    fetch, update, remove, dismissError,
   } = useProductVariants(productId!);
   const { items: attributes, fetch: fetchAttributes } = useAttributes();
 
-  const [modalOpen,          setModalOpen]         = useState(false);
+  const [generatorOpen,      setGeneratorOpen]     = useState(false);
+  const [editModalOpen,      setEditModalOpen]      = useState(false);
   const [editItem,           setEditItem]           = useState<ProductVariant | null>(null);
   const [deleteItem,         setDeleteItem]         = useState<ProductVariant | null>(null);
   const [allAttributeValues, setAllAttributeValues] = useState<AttributeValue[]>([]);
+  const [isBulkSaving,       setIsBulkSaving]      = useState(false);
+  const [bulkError,          setBulkError]          = useState('');
   const [page,               setPage]               = useState(1);
+  const [variantImages,      setVariantImages]      = useState<Record<string, string | null>>({});
 
   const hasFetched = useRef(false);
 
@@ -47,68 +55,118 @@ const ProductVariantsPage = () => {
       .catch(console.error);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // ── Fetch primary images in one batch request ──────────────────────────────
+  useEffect(() => {
+    if (items.length === 0) return;
+    imgRepo
+      .getPrimaryBatch(items.map((v) => v.variant_id))
+      .then(setVariantImages)
+      .catch(console.error);
+  }, [items]);
+
   const product = useMemo(
     () => products.find((p) => p.product_id === productId),
     [products, productId],
   );
 
   const filteredAttributes = useMemo(() => {
-    if (!product) return [];
+  if (!product) return [];
     return attributes.filter(
-      (a) => a.category_no === product.category_no && a.status === 'A',
+      (a) => a.category_id === product.category_id && a.status === 'A',
     );
   }, [attributes, product]);
 
   const filteredAttributeValues = useMemo(() => {
     if (filteredAttributes.length === 0) return [];
-    const validNos = new Set(filteredAttributes.map((a) => a.attribute_no));
-    return allAttributeValues.filter((v) => validNos.has(v.attribute_no));
+    const validIds = new Set(filteredAttributes.map((a) => a.attribute_id));
+    return allAttributeValues.filter((v:any) => validIds.has(v.attribute_id));
   }, [filteredAttributes, allAttributeValues]);
 
   const totalPages = Math.ceil(items.length / LIMIT);
   const pagedItems = items.slice((page - 1) * LIMIT, page * LIMIT);
 
-  const handleSubmit = async (
-    values: VariantFormValues,
-    selectedValueNos: number[],
-  ) => {
-    let savedVariant: ProductVariant | undefined;
+  // ── Bulk create from generator ─────────────────────────────────────────────
+  const handleBulkCreate = async (variants: GeneratedVariant[]) => {
+    if (!product) return;
+    setBulkError('');
+    setIsBulkSaving(true);
 
-    if (editItem) {
-      const result = await update(editItem.variant_id, {
-        sku:            values.sku,
-        price_override: values.price_override,
-        stock_qty:      values.stock_qty,
-        weight_kg:      values.weight_kg,
-        image_url:      values.image_url,
-        status:         values.status,
+    try {
+      const res = await axiosInstance.post<{
+        data: { variants: ProductVariant[] };
+      }>('/product-variants/bulk', {
+        product_id: product.product_id,
+        variants: variants.map((v) => ({
+          sku:                  v.sku,
+          cost_price:           v.cost_price,      // ← add
+          mrp:                  v.mrp,             // ← add
+          selling_price:        v.selling_price,   // ← add
+          stock_qty:            v.stock_qty,
+          weight_kg:            v.weight_kg,
+          image_url:            null,
+          attribute_value_ids:  v.attributeValueIds,
+        })),
       });
-      savedVariant = (result as { payload?: ProductVariant })?.payload ?? undefined;
-    } else {
-      const result = await create({
-        product_no:     product?.product_no ?? 0,
-        sku:            values.sku,
-        price_override: values.price_override,
-        stock_qty:      values.stock_qty,
-        weight_kg:      values.weight_kg,
-        image_url:      values.image_url,
-      });
-      savedVariant = (result as { payload?: ProductVariant })?.payload ?? undefined;
-    }
 
-    if (savedVariant && selectedValueNos.length > 0) {
-      await Promise.all(
-        selectedValueNos.map((no) =>
-          vavRepo.create({
-            variant_no:         savedVariant!.variant_no,
-            attribute_value_no: no,
-          }),
-        ),
+      const createdVariants = res.data?.data?.variants ?? [];
+
+      for (let i = 0; i < variants.length; i++) {
+        const pending = variants[i].pendingImages ?? [];
+        const created = createdVariants[i];
+        if (!created || pending.length === 0) continue;
+
+        const files = pending
+          .filter((img) => !img.isUrl && img.file)
+          .map((img) => img.file!);
+
+        if (files.length > 0) {
+          await imgRepo.uploadFiles(created.variant_id, files);
+        }
+      }
+
+      setGeneratorOpen(false);
+      fetch();
+    } catch (err: unknown) {
+      setBulkError(
+        (err as any)?.response?.data?.error ?? 'Failed to create variants.',
       );
+    } finally {
+      setIsBulkSaving(false);
+    }
+  };
+
+  // ── Edit submit ────────────────────────────────────────────────────────────
+  const handleEditSubmit = async (
+    values:             VariantFormValues,
+    _selectedValueIds:  string[],  // ← string UUIDs
+    pendingImages:      PendingImage[],
+  ) => {
+    if (!editItem) return;
+
+    await update(editItem.variant_id, {
+      sku:           values.sku,
+      cost_price:    values.cost_price    ?? null,  // ← add
+      mrp:           values.mrp           ?? null,  // ← add
+      selling_price: values.selling_price ?? null,  // ← add
+      stock_qty:     values.stock_qty,
+      weight_kg:     values.weight_kg,
+      image_url:     values.image_url,
+      status:        values.status,
+    });
+
+    if (pendingImages.length > 0) {
+      const files = pendingImages
+        .filter((img) => img.file)
+        .map((img) => img.file!);
+
+      if (files.length > 0) {
+        await imgRepo.uploadFiles(editItem.variant_id, files);
+      }
     }
 
-    setModalOpen(false);
+    setEditModalOpen(false);
     setEditItem(null);
+    fetch();
   };
 
   const handleDelete = async () => {
@@ -118,9 +176,6 @@ const ProductVariantsPage = () => {
   };
 
   const totalStock = items.reduce((s, v) => s + v.stock_qty, 0);
-  const avgPrice   = items.length
-    ? items.reduce((s, v) => s + (v.price_override ?? product?.base_price ?? 0), 0) / items.length
-    : 0;
   const lowStock = items.filter((v) => v.stock_qty === 0).length;
 
   return (
@@ -146,15 +201,15 @@ const ProductVariantsPage = () => {
             Variants — {product?.product_name ?? '—'}
           </h1>
           <p className="gng-page-subtitle">
-            Manage stock, pricing, and attributes for product ID: #{product?.sku ?? '—'}
+            Manage stock, pricing and attribute combinations for #{product?.sku ?? '—'}
           </p>
         </div>
         <button
           type="button"
           className="gng-btn-primary"
-          onClick={() => { setEditItem(null); setModalOpen(true); }}
+          onClick={() => setGeneratorOpen(true)}
         >
-          <i className="fa-solid fa-plus" /> Add Variant
+          <i className="fa-solid fa-wand-magic-sparkles" /> Generate Variants
         </button>
       </div>
 
@@ -182,10 +237,6 @@ const ProductVariantsPage = () => {
           <div className="gng-stat-icon gng-stat-icon-blue">
             <i className="fa-solid fa-arrow-trend-up" />
           </div>
-          <div className="gng-stat-info">
-            <p className="gng-stat-label">Avg. Price</p>
-            <p className="gng-stat-value">${avgPrice.toFixed(2)}</p>
-          </div>
         </div>
         <div className="gng-stat-card">
           <div className="gng-stat-icon gng-stat-icon-orange">
@@ -198,12 +249,16 @@ const ProductVariantsPage = () => {
         </div>
       </div>
 
-      {/* Error */}
-      {error && (
+      {/* Errors */}
+      {(error || bulkError) && (
         <div className="gng-error-alert">
           <i className="fa-solid fa-circle-exclamation" />
-          <span>{error}</span>
-          <button type="button" className="gng-error-dismiss" onClick={dismissError}>
+          <span>{error || bulkError}</span>
+          <button
+            type="button"
+            className="gng-error-dismiss"
+            onClick={() => { dismissError(); setBulkError(''); }}
+          >
             <i className="fa-solid fa-xmark" />
           </button>
         </div>
@@ -216,16 +271,28 @@ const ProductVariantsPage = () => {
         page={page}
         totalPages={totalPages}
         isLoading={isLoading}
-        onEdit={(item) => { setEditItem(item); setModalOpen(true); }}
+        variantImages={variantImages}
+        onEdit={(item) => { setEditItem(item); setEditModalOpen(true); }}
         onDelete={setDeleteItem}
         onPageChange={setPage}
       />
 
-      {/* Variant Form Modal */}
+      {/* Generator Modal */}
+      <VariantGeneratorModal
+        open={generatorOpen}
+        onClose={() => setGeneratorOpen(false)}
+        onSubmit={handleBulkCreate}
+        isSubmitting={isBulkSaving}
+        productSku={product?.sku ?? ''}
+        attributes={filteredAttributes}
+        attributeValues={filteredAttributeValues}
+      />
+
+      {/* Edit Modal */}
       <VariantFormModal
-        open={modalOpen}
-        onClose={() => { setModalOpen(false); setEditItem(null); }}
-        onSubmit={handleSubmit}
+        open={editModalOpen}
+        onClose={() => { setEditModalOpen(false); setEditItem(null); }}
+        onSubmit={handleEditSubmit}
         editItem={editItem}
         isSubmitting={isSubmitting}
         productSku={product?.sku ?? ''}

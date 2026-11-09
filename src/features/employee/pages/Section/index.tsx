@@ -5,7 +5,11 @@ import { SectionFormModal } from '../../components/SectionFormModal';
 import type { Section } from '../../../../domain/entities/Section';
 import type { SectionFormValues } from '../../schemas/section.schemas';
 
-const SectionListPage = () => {
+interface Props {
+  embedded?: boolean;
+}
+
+export const SectionListPage = ({ embedded = false }: Props) => {
   const {
     items, total, page, totalPages,
     isLoading, isSubmitting, error,
@@ -52,25 +56,19 @@ const SectionListPage = () => {
     setDeleteItem(null);
   };
 
-  const activeCount = items.filter((s:any) => s.status === 'A').length;
+  const activeCount = items.filter((s) => s.status === 'A').length;
 
-  return (
-    <div className="gng-page">
-
-      {/* Breadcrumb */}
-      <nav className="gng-breadcrumb">
-        <span className="gng-crumb-link">Dashboard</span>
-        <i className="fa-solid fa-chevron-right" />
-        <span className="gng-crumb-active">Sections</span>
-      </nav>
-
-      {/* Header */}
-      <div className="gng-page-header">
+  const inner = (
+    <>
+      {/* Header row */}
+      <div className="gng-page-header" style={{ marginBottom: 0 }}>
         <div>
-          <h1 className="gng-page-title">Section Management</h1>
-          <p className="gng-page-subtitle">
-            Manage navigation sections and access control for the admin panel.
-          </p>
+          {!embedded && <h1 className="gng-page-title">Section Management</h1>}
+          {!embedded && (
+            <p className="gng-page-subtitle">
+              Manage navigation sections and access control for the admin panel.
+            </p>
+          )}
         </div>
         <button type="button" className="gng-btn-primary" onClick={handleOpenCreate}>
           <i className="fa-solid fa-plus" /> Add Section
@@ -78,48 +76,50 @@ const SectionListPage = () => {
       </div>
 
       {/* Stat cards */}
-      <div className="gng-stats-row">
-        <div className="gng-stat-card">
-          <div className="gng-stat-icon gng-stat-icon-purple">
-            <i className="fa-solid fa-rectangle-list" />
+      {!embedded && (
+        <div className="gng-stats-row">
+          <div className="gng-stat-card">
+            <div className="gng-stat-icon gng-stat-icon-purple">
+              <i className="fa-solid fa-rectangle-list" />
+            </div>
+            <div className="gng-stat-info">
+              <p className="gng-stat-label">Total Sections</p>
+              <p className="gng-stat-value">{isLoading ? '—' : total}</p>
+            </div>
           </div>
-          <div className="gng-stat-info">
-            <p className="gng-stat-label">Total Sections</p>
-            <p className="gng-stat-value">{isLoading ? '—' : total}</p>
+          <div className="gng-stat-card">
+            <div className="gng-stat-icon gng-stat-icon-green">
+              <i className="fa-solid fa-circle-check" />
+            </div>
+            <div className="gng-stat-info">
+              <p className="gng-stat-label">Active</p>
+              <p className="gng-stat-value">{isLoading ? '—' : activeCount}</p>
+            </div>
+          </div>
+          <div className="gng-stat-card">
+            <div className="gng-stat-icon gng-stat-icon-orange">
+              <i className="fa-solid fa-triangle-exclamation" />
+            </div>
+            <div className="gng-stat-info">
+              <p className="gng-stat-label">Inactive</p>
+              <p className="gng-stat-value">
+                {isLoading ? '—' : items.filter((s) => s.status === 'I').length}
+              </p>
+            </div>
+          </div>
+          <div className="gng-stat-card">
+            <div className="gng-stat-icon gng-stat-icon-blue">
+              <i className="fa-solid fa-arrows-up-down" />
+            </div>
+            <div className="gng-stat-info">
+              <p className="gng-stat-label">Max Order</p>
+              <p className="gng-stat-value">
+                {isLoading ? '—' : items.length > 0 ? Math.max(...items.map((s) => s.section_order)) : 0}
+              </p>
+            </div>
           </div>
         </div>
-        <div className="gng-stat-card">
-          <div className="gng-stat-icon gng-stat-icon-green">
-            <i className="fa-solid fa-circle-check" />
-          </div>
-          <div className="gng-stat-info">
-            <p className="gng-stat-label">Active</p>
-            <p className="gng-stat-value">{isLoading ? '—' : activeCount}</p>
-          </div>
-        </div>
-        <div className="gng-stat-card">
-          <div className="gng-stat-icon gng-stat-icon-orange">
-            <i className="fa-solid fa-triangle-exclamation" />
-          </div>
-          <div className="gng-stat-info">
-            <p className="gng-stat-label">Inactive</p>
-            <p className="gng-stat-value">
-              {isLoading ? '—' : items.filter((s: any) => s.status === 'I').length}
-            </p>
-          </div>
-        </div>
-        <div className="gng-stat-card">
-          <div className="gng-stat-icon gng-stat-icon-blue">
-            <i className="fa-solid fa-arrows-up-down" />
-          </div>
-          <div className="gng-stat-info">
-            <p className="gng-stat-label">Max Order</p>
-            <p className="gng-stat-value">
-              {isLoading ? '—' : items.length > 0 ? Math.max(...items.map((s:any) => s.section_order)) : 0}
-            </p>
-          </div>
-        </div>
-      </div>
+      )}
 
       {/* Error */}
       {error && (
@@ -137,19 +137,12 @@ const SectionListPage = () => {
         <div className="gng-toolbar-left">
           <div className="gng-search-wrapper">
             <i className="fa-solid fa-magnifying-glass" />
-            <input
-              type="text"
-              placeholder="Search sections..."
-              className="gng-search-input"
-            />
+            <input type="text" placeholder="Search sections..." className="gng-search-input" />
           </div>
         </div>
         <div className="gng-toolbar-right">
           <button type="button" className="gng-btn-secondary">
             <i className="fa-solid fa-filter" /> Filter
-          </button>
-          <button type="button" className="gng-btn-secondary">
-            <i className="fa-solid fa-file-export" /> Export
           </button>
         </div>
       </div>
@@ -179,9 +172,7 @@ const SectionListPage = () => {
       {deleteItem && (
         <div className="gng-confirm-overlay">
           <div className="gng-confirm-box">
-            <div className="gng-confirm-icon">
-              <i className="fa-solid fa-trash-can" />
-            </div>
+            <div className="gng-confirm-icon"><i className="fa-solid fa-trash-can" /></div>
             <p className="gng-confirm-title">Delete Section</p>
             <p className="gng-confirm-text">
               Are you sure you want to delete{' '}
@@ -189,19 +180,10 @@ const SectionListPage = () => {
               This may affect role permissions.
             </p>
             <div className="gng-confirm-actions">
-              <button
-                type="button"
-                className="gng-confirm-cancel"
-                onClick={() => setDeleteItem(null)}
-              >
+              <button type="button" className="gng-confirm-cancel" onClick={() => setDeleteItem(null)}>
                 Cancel
               </button>
-              <button
-                type="button"
-                className="gng-btn-danger"
-                onClick={handleDelete}
-                disabled={isSubmitting}
-              >
+              <button type="button" className="gng-btn-danger" onClick={handleDelete} disabled={isSubmitting}>
                 {isSubmitting
                   ? <><i className="fa-solid fa-spinner fa-spin" /> Deleting…</>
                   : <><i className="fa-solid fa-trash-can" /> Delete</>}
@@ -210,6 +192,19 @@ const SectionListPage = () => {
           </div>
         </div>
       )}
+    </>
+  );
+
+  if (embedded) return <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>{inner}</div>;
+
+  return (
+    <div className="gng-page">
+      <nav className="gng-breadcrumb">
+        <span className="gng-crumb-link">Dashboard</span>
+        <i className="fa-solid fa-chevron-right" />
+        <span className="gng-crumb-active">Sections</span>
+      </nav>
+      {inner}
     </div>
   );
 };

@@ -7,15 +7,6 @@ import type {
 } from '../../domain/repositories/ICategoryRepository';
 import type { Category } from '../../domain/entities/Category';
 import type { ApiResponse, PaginatedResponse } from '../../core/types/common.types';
-
-const fileToBase64 = (file: File): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload  = () => resolve(reader.result as string);
-    reader.onerror = () => reject(new Error('Failed to read file'));
-    reader.readAsDataURL(file);
-  });
-
 export class CategoryRepository implements ICategoryRepository {
   async getAll(filters?: CategoryFilters): Promise<PaginatedResponse<Category>> {
     const { data } = await axiosInstance.get<ApiResponse<Category[]>>(
@@ -47,12 +38,8 @@ export class CategoryRepository implements ICategoryRepository {
       category_name: payload.category_name,
       slug:          payload.slug,
       details:       payload.details   ?? null,
-      parent_no:     payload.parent_no ?? null,
+      parent_id:     payload.parent_id ?? null,
     };
-
-    if (payload.image) {
-      body.image = await fileToBase64(payload.image);
-    }
 
     const { data } = await axiosInstance.post<ApiResponse<Category>>(
       '/categories',
@@ -67,11 +54,7 @@ export class CategoryRepository implements ICategoryRepository {
     if (payload.category_name !== undefined) body.category_name = payload.category_name;
     if (payload.slug          !== undefined) body.slug          = payload.slug;
     if (payload.details       !== undefined) body.details       = payload.details;
-    if (payload.parent_no     !== undefined) body.parent_no     = payload.parent_no ?? null;
-
-    if (payload.image) {
-      body.image = await fileToBase64(payload.image);
-    }
+    if (payload.parent_id     !== undefined) body.parent_id     = payload.parent_id ?? null;
 
     const { data } = await axiosInstance.put<ApiResponse<Category>>(
       `/categories/${id}`,

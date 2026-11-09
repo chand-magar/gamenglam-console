@@ -31,3 +31,36 @@
   display: inline-flex;
   align-items: center;
 }
+
+.imgThumb {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid #E5E7EB;
+  display: block;
+}
+
+.imgFallback {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: #F9FAFB;
+  border: 1px solid #E5E7EB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.imgSkeleton {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: #F3F4F6;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}

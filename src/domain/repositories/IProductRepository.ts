@@ -11,44 +11,47 @@ export interface ProductFilters {
 }
 
 export interface CreateProductPayload {
-  category_no:  number;
+  category_id:  string;   // ← UUID
   sku:          string;
   product_name: string;
   slug:         string;
   description?: string;
-  base_price:   number;
   is_featured:  boolean;
-  stock_qty:    number;
+}
+
+export interface SpecItem {
+  key:   string;
+  value: string;
 }
 
 export interface UpdateProductPayload {
-  category_no?:  number;
-  sku?:          string;
-  product_name?: string;
-  slug?:         string;
-  description?:  string;
-  base_price?:   number;
-  is_featured?:  boolean;
-  stock_qty?:    number;
-  status?:       string;
+  category_id?:    string;   // ← UUID
+  sku?:            string;
+  product_name?:   string;
+  slug?:           string;
+  description?:    string;
+  is_featured?:    boolean;
+  status?:         string;
+  features?:       string[];
+  specifications?: SpecItem[];
 }
-
 export interface CreateVariantPayload {
   product_no:     number;
   sku:            string;
-  price_override?: number | null;
   stock_qty:      number;
   weight_kg?:     number | null;
   image_url?:     string | null;
 }
 
 export interface UpdateVariantPayload {
-  sku?:            string;
-  price_override?: number | null;
-  stock_qty?:      number;
-  weight_kg?:      number | null;
-  image_url?:      string | null;
-  status?:         string;
+  sku?:           string;
+  cost_price?:    number | null;   // ← add
+  mrp?:           number | null;   // ← add
+  selling_price?: number | null;   // ← add
+  stock_qty?:     number;
+  weight_kg?:     number | null;
+  image_url?:     string | null;
+  status?:        string;
 }
 
 export interface IProductRepository {

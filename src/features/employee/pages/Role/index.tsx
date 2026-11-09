@@ -7,7 +7,11 @@ import { RoleFormModal } from '../../components/RoleFormModal';
 import type { Role } from '../../../../domain/entities/Role';
 import type { RoleFormValues } from '../../schemas/role.schemas';
 
-const RoleListPage = () => {
+interface Props {
+  embedded?: boolean;
+}
+
+export const RoleListPage = ({ embedded = false }: Props) => {
   const {
     items, total, page, totalPages,
     isLoading, isSubmitting, error,
@@ -55,73 +59,63 @@ const RoleListPage = () => {
     setDeleteItem(null);
   };
 
-  const activeCount    = items.filter((r) => r.status === 'A').length;
-  const totalSections  = new Set(items.flatMap((r) => (r.role_details ?? []).map((s) => s.section_id))).size;
+  const activeCount   = items.filter((r) => r.status === 'A').length;
+  const totalSections = new Set(
+    items.flatMap((r) => (r.role_details ?? []).map((s) => s.section_id))
+  ).size;
 
-  return (
-    <div className="gng-page">
-
-      {/* Breadcrumb */}
-      <nav className="gng-breadcrumb">
-        <span className="gng-crumb-link">Dashboard</span>
-        <i className="fa-solid fa-chevron-right" />
-        <span className="gng-crumb-active">Roles</span>
-      </nav>
-
-      {/* Header */}
-      <div className="gng-page-header">
+  const inner = (
+    <>
+      <div className="gng-page-header" style={{ marginBottom: 0 }}>
         <div>
-          <h1 className="gng-page-title">Role Management</h1>
-          <p className="gng-page-subtitle">
-            Define roles and assign section and page level permissions.
-          </p>
+          {!embedded && <h1 className="gng-page-title">Role Management</h1>}
         </div>
         <button type="button" className="gng-btn-primary" onClick={handleOpenCreate}>
           <i className="fa-solid fa-plus" /> Add Role
         </button>
       </div>
 
-      {/* Stat cards */}
-      <div className="gng-stats-row">
-        <div className="gng-stat-card">
-          <div className="gng-stat-icon gng-stat-icon-purple">
-            <i className="fa-solid fa-id-badge" />
+      {!embedded && (
+        <div className="gng-stats-row">
+          <div className="gng-stat-card">
+            <div className="gng-stat-icon gng-stat-icon-purple">
+              <i className="fa-solid fa-id-badge" />
+            </div>
+            <div className="gng-stat-info">
+              <p className="gng-stat-label">Total Roles</p>
+              <p className="gng-stat-value">{isLoading ? '—' : total}</p>
+            </div>
           </div>
-          <div className="gng-stat-info">
-            <p className="gng-stat-label">Total Roles</p>
-            <p className="gng-stat-value">{isLoading ? '—' : total}</p>
+          <div className="gng-stat-card">
+            <div className="gng-stat-icon gng-stat-icon-green">
+              <i className="fa-solid fa-circle-check" />
+            </div>
+            <div className="gng-stat-info">
+              <p className="gng-stat-label">Active</p>
+              <p className="gng-stat-value">{isLoading ? '—' : activeCount}</p>
+            </div>
+          </div>
+          <div className="gng-stat-card">
+            <div className="gng-stat-icon gng-stat-icon-blue">
+              <i className="fa-solid fa-rectangle-list" />
+            </div>
+            <div className="gng-stat-info">
+              <p className="gng-stat-label">Sections Covered</p>
+              <p className="gng-stat-value">{isLoading ? '—' : totalSections}</p>
+            </div>
+          </div>
+          <div className="gng-stat-card">
+            <div className="gng-stat-icon gng-stat-icon-orange">
+              <i className="fa-solid fa-file-lines" />
+            </div>
+            <div className="gng-stat-info">
+              <p className="gng-stat-label">Available Pages</p>
+              <p className="gng-stat-value">{isLoading ? '—' : allPages.length}</p>
+            </div>
           </div>
         </div>
-        <div className="gng-stat-card">
-          <div className="gng-stat-icon gng-stat-icon-green">
-            <i className="fa-solid fa-circle-check" />
-          </div>
-          <div className="gng-stat-info">
-            <p className="gng-stat-label">Active</p>
-            <p className="gng-stat-value">{isLoading ? '—' : activeCount}</p>
-          </div>
-        </div>
-        <div className="gng-stat-card">
-          <div className="gng-stat-icon gng-stat-icon-blue">
-            <i className="fa-solid fa-rectangle-list" />
-          </div>
-          <div className="gng-stat-info">
-            <p className="gng-stat-label">Sections Covered</p>
-            <p className="gng-stat-value">{isLoading ? '—' : totalSections}</p>
-          </div>
-        </div>
-        <div className="gng-stat-card">
-          <div className="gng-stat-icon gng-stat-icon-orange">
-            <i className="fa-solid fa-file-lines" />
-          </div>
-          <div className="gng-stat-info">
-            <p className="gng-stat-label">Available Pages</p>
-            <p className="gng-stat-value">{isLoading ? '—' : allPages.length}</p>
-          </div>
-        </div>
-      </div>
+      )}
 
-      {/* Error */}
       {error && (
         <div className="gng-error-alert">
           <i className="fa-solid fa-circle-exclamation" />
@@ -132,29 +126,20 @@ const RoleListPage = () => {
         </div>
       )}
 
-      {/* Toolbar */}
       <div className="gng-toolbar">
         <div className="gng-toolbar-left">
           <div className="gng-search-wrapper">
             <i className="fa-solid fa-magnifying-glass" />
-            <input
-              type="text"
-              placeholder="Search roles..."
-              className="gng-search-input"
-            />
+            <input type="text" placeholder="Search roles..." className="gng-search-input" />
           </div>
         </div>
         <div className="gng-toolbar-right">
           <button type="button" className="gng-btn-secondary">
             <i className="fa-solid fa-filter" /> Filter
           </button>
-          <button type="button" className="gng-btn-secondary">
-            <i className="fa-solid fa-file-export" /> Export
-          </button>
         </div>
       </div>
 
-      {/* Table */}
       <RoleTable
         items={items}
         total={total}
@@ -166,7 +151,6 @@ const RoleListPage = () => {
         onPageChange={changePage}
       />
 
-      {/* Form Modal */}
       <RoleFormModal
         open={modalOpen}
         onClose={() => setModalOpen(false)}
@@ -177,13 +161,10 @@ const RoleListPage = () => {
         isSubmitting={isSubmitting}
       />
 
-      {/* Delete confirm */}
       {deleteItem && (
         <div className="gng-confirm-overlay">
           <div className="gng-confirm-box">
-            <div className="gng-confirm-icon">
-              <i className="fa-solid fa-trash-can" />
-            </div>
+            <div className="gng-confirm-icon"><i className="fa-solid fa-trash-can" /></div>
             <p className="gng-confirm-title">Delete Role</p>
             <p className="gng-confirm-text">
               Are you sure you want to delete{' '}
@@ -191,19 +172,10 @@ const RoleListPage = () => {
               Users assigned to this role will lose access.
             </p>
             <div className="gng-confirm-actions">
-              <button
-                type="button"
-                className="gng-confirm-cancel"
-                onClick={() => setDeleteItem(null)}
-              >
+              <button type="button" className="gng-confirm-cancel" onClick={() => setDeleteItem(null)}>
                 Cancel
               </button>
-              <button
-                type="button"
-                className="gng-btn-danger"
-                onClick={handleDelete}
-                disabled={isSubmitting}
-              >
+              <button type="button" className="gng-btn-danger" onClick={handleDelete} disabled={isSubmitting}>
                 {isSubmitting
                   ? <><i className="fa-solid fa-spinner fa-spin" /> Deleting…</>
                   : <><i className="fa-solid fa-trash-can" /> Delete</>}
@@ -212,6 +184,19 @@ const RoleListPage = () => {
           </div>
         </div>
       )}
+    </>
+  );
+
+  if (embedded) return <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>{inner}</div>;
+
+  return (
+    <div className="gng-page">
+      <nav className="gng-breadcrumb">
+        <span className="gng-crumb-link">Dashboard</span>
+        <i className="fa-solid fa-chevron-right" />
+        <span className="gng-crumb-active">Roles</span>
+      </nav>
+      {inner}
     </div>
   );
 };

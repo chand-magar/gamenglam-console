@@ -40,6 +40,32 @@ export const ProductTable = ({
       ),
     },
     {
+      key:    'image',
+      title:  'Image',
+      width:  '64px',
+      render: (row) => (
+        <div className={styles.productImgCell}>
+          {row.image_url ? (
+            <img
+              src={row.image_url}
+              alt={row.product_name}
+              className={styles.productImg}
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+                (e.currentTarget.nextElementSibling as HTMLElement).style.display = 'flex';
+              }}
+            />
+          ) : null}
+          <div
+            className={styles.productImgFallback}
+            style={{ display: row.image_url ? 'none' : 'flex' }}
+          >
+            <i className="fa-solid fa-image" />
+          </div>
+        </div>
+      ),
+    },
+    {
       key:      'product_name',
       title:    'Product Name',
       sortable: true,
@@ -62,25 +88,7 @@ export const ProductTable = ({
       key:    'category',
       title:  'Category',
       render: (row) => (
-        <span className={styles.category}>#{row.category_no}</span>
-      ),
-    },
-    {
-      key:    'base_price',
-      title:  'Base Price',
-      align:  'right',
-      render: (row) => (
-        <span className={styles.price}>${row.base_price.toFixed(2)}</span>
-      ),
-    },
-    {
-      key:    'stock_qty',
-      title:  'Stock',
-      align:  'center',
-      render: (row) => (
-        <span className={row.stock_qty === 0 ? styles.stockZero : styles.stock}>
-          {row.stock_qty.toLocaleString()}
-        </span>
+        <span className={styles.category}>#{row.category_id}</span>
       ),
     },
     {
@@ -153,7 +161,7 @@ export const ProductTable = ({
     <DataTable<Product>
       columns={columns}
       data={items}
-      rowKey={(row) => row.product_no}
+      rowKey={(row) => row.product_id}
       isLoading={isLoading}
       total={total}
       page={page}

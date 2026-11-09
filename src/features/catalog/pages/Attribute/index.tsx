@@ -34,22 +34,24 @@ const AttributeListPage = () => {
   const handleSubmit = async (values: AttributeFormValues) => {
     if (editItem) {
       await update(editItem.attribute_id, {
-        category_no:    values.category_no,
+        category_id:    values.category_id,   // ← UUID
         attribute_name: values.attribute_name,
         code:           values.code,
         type:           values.type,
         is_required:    values.is_required,
         is_variant:     values.is_variant,
+        show_in_filter: values.show_in_filter,
         sort_order:     values.sort_order,
       });
     } else {
       await create({
-        category_no:    values.category_no,
+        category_id:    values.category_id,   // ← UUID
         attribute_name: values.attribute_name,
         code:           values.code,
         type:           values.type,
         is_required:    values.is_required,
         is_variant:     values.is_variant,
+        show_in_filter: values.show_in_filter,
         sort_order:     values.sort_order,
       });
     }
@@ -171,6 +173,7 @@ const AttributeListPage = () => {
       {/* Table */}
       <AttributeTable
         items={items}
+        categories={categories}
         total={total}
         page={page}
         totalPages={totalPages}

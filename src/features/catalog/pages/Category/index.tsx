@@ -33,14 +33,14 @@ const CategoryListPage = () => {
         category_name: values.category_name,
         slug:          values.slug,
         details:       values.details,
-        parent_no:     values.parent_no,
+        parent_id:     values.parent_id,
       });
     } else {
       await create({
         category_name: values.category_name,
         slug:          values.slug,
         details:       values.details,
-        parent_no:     values.parent_no,
+        parent_id:     values.parent_id,
       });
     }
     setModalOpen(false);

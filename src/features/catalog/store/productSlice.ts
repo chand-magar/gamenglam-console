@@ -90,7 +90,7 @@ const productSlice = createSlice({
       .addCase(updateProductThunk.fulfilled,(state, { payload }) => {
         state.isSubmitting = false;
         if (payload) {
-          const idx = state.items.findIndex((p) => p.product_no === payload.product_no);
+          const idx = state.items.findIndex((p) => p.product_id === payload.product_id);
           if (idx !== -1) state.items[idx] = payload;
         }
       })

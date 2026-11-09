@@ -8,6 +8,13 @@ import productVariantReducer from '../../features/catalog/store/productVariantSl
 import sectionReducer        from '../../features/employee/store/sectionSlice';
 import pageReducer           from '../../features/employee/store/pageSlice';
 import roleReducer           from '../../features/employee/store/roleSlice';
+import userReducer           from '../../features/employee/store/userSlice';
+import customerReducer       from '../../features/customer/store/customerSlice';
+import inventoryReducer from '../../features/inventory/store/inventorySlice';
+import orderReducer   from '../../features/order/store/orderSlice';
+import couponReducer  from '../../features/coupon/store/couponSlice';
+import reviewReducer      from '../../features/review/store/reviewSlice';
+import newsletterReducer  from '../../features/newsletter/store/newsletterSlice';
 
 export const store = configureStore({
   reducer: {
@@ -20,6 +27,13 @@ export const store = configureStore({
     sections:        sectionReducer,
     pages:           pageReducer,
     roles:           roleReducer,
+    users:           userReducer,
+    customers:       customerReducer,
+    inventory: inventoryReducer,
+    orders:    orderReducer,
+    coupons:   couponReducer,
+    reviews:    reviewReducer,
+    newsletter: newsletterReducer,
   },
 });
 

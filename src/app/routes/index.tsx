@@ -14,9 +14,14 @@ const AttributeListPage   = lazy(() => import('../../features/catalog/pages/Attr
 const AttributeValuesPage = lazy(() => import('../../features/catalog/pages/AttributeValues'));
 const ProductListPage     = lazy(() => import('../../features/catalog/pages/Product'));
 const ProductVariantsPage = lazy(() => import('../../features/catalog/pages/ProductVariants'));
-const SectionListPage     = lazy(() => import('../../features/employee/pages/Section'));
-const PageListPage        = lazy(() => import('../../features/employee/pages/Page'));
-const RoleListPage        = lazy(() => import('../../features/employee/pages/Role'));
+const SystemSettingsPage  = lazy(() => import('../../features/employee/pages/Settings'));
+const EmployeesPage       = lazy(() => import('../../features/employee/pages/Employees'));
+const CustomerListPage = lazy(() => import('../../features/customer/pages/Customer'));
+const InventoryPage = lazy(() => import('../../features/inventory/pages/Inventory'));
+const OrderListPage  = lazy(() => import('../../features/order/pages/Order'));
+const CouponListPage  = lazy(() => import('../../features/coupon/pages/Coupon'));
+const ReviewListPage      = lazy(() => import('../../features/review/pages/Review'));
+const NewsletterListPage  = lazy(() => import('../../features/newsletter/pages/Newsletter'));
 
 const router = createBrowserRouter([
   { path: '/', element: <Navigate to="/dashboard" replace /> },
@@ -38,21 +43,22 @@ const router = createBrowserRouter([
       {
         element: <AdminLayout />,
         children: [
-          { path: '/dashboard',                        element: <Suspense fallback={<LoadingSpinner />}><DashboardPage /></Suspense>       },
-          { path: '/category',                          element: <Suspense fallback={<LoadingSpinner />}><CategoryListPage /></Suspense>    },
-          { path: '/attributes',                        element: <Suspense fallback={<LoadingSpinner />}><AttributeListPage /></Suspense>   },
-          { path: '/attributes/:attributeId/values',    element: <Suspense fallback={<LoadingSpinner />}><AttributeValuesPage /></Suspense> },
-          { path: '/products',                          element: <Suspense fallback={<LoadingSpinner />}><ProductListPage /></Suspense>     },
-          { path: '/products/:productId/variants',      element: <Suspense fallback={<LoadingSpinner />}><ProductVariantsPage /></Suspense> },
-          { path: '/sections',                          element: <Suspense fallback={<LoadingSpinner />}><SectionListPage /></Suspense>     },
-          { path: '/pages',                             element: <Suspense fallback={<LoadingSpinner />}><PageListPage /></Suspense>        },
-          { path: '/roles',                             element: <Suspense fallback={<LoadingSpinner />}><RoleListPage /></Suspense>        },
-          { path: '/orders',     element: <div>Orders — coming soon</div>     },
-          { path: '/customers',  element: <div>Customers — coming soon</div>  },
-          { path: '/employees',  element: <div>Employees — coming soon</div>  },
-          { path: '/inventory',  element: <div>Inventory — coming soon</div>  },
-          { path: '/reports',    element: <div>Reports — coming soon</div>    },
-          { path: '/settings',   element: <div>Settings — coming soon</div>   },
+          { path: '/dashboard',                       element: <Suspense fallback={<LoadingSpinner />}><DashboardPage /></Suspense>       },
+          { path: '/category',                         element: <Suspense fallback={<LoadingSpinner />}><CategoryListPage /></Suspense>    },
+          { path: '/attributes',                       element: <Suspense fallback={<LoadingSpinner />}><AttributeListPage /></Suspense>   },
+          { path: '/attributes/:attributeId/values',   element: <Suspense fallback={<LoadingSpinner />}><AttributeValuesPage /></Suspense> },
+          { path: '/products',                         element: <Suspense fallback={<LoadingSpinner />}><ProductListPage /></Suspense>     },
+          { path: '/products/:productId/variants',     element: <Suspense fallback={<LoadingSpinner />}><ProductVariantsPage /></Suspense> },
+          { path: '/employees',                        element: <Suspense fallback={<LoadingSpinner />}><EmployeesPage /></Suspense>       },
+          { path: '/settings',                         element: <Suspense fallback={<LoadingSpinner />}><SystemSettingsPage /></Suspense>  },
+          { path: '/customers', element: <Suspense fallback={<LoadingSpinner />}><CustomerListPage /></Suspense> },
+          { path: '/inventory', element: <Suspense fallback={<LoadingSpinner />}><InventoryPage /></Suspense> },
+          { path: '/orders',   element: <Suspense fallback={<LoadingSpinner />}><OrderListPage /></Suspense>  },
+          { path: '/coupons',  element: <Suspense fallback={<LoadingSpinner />}><CouponListPage /></Suspense>  },
+          { path: '/reviews',    element: <Suspense fallback={<LoadingSpinner />}><ReviewListPage /></Suspense>     },
+          { path: '/newsletter', element: <Suspense fallback={<LoadingSpinner />}><NewsletterListPage /></Suspense> },
+          { path: '/customers', element: <div>Customers — coming soon</div> },
+          { path: '/reports',   element: <div>Reports — coming soon</div>   },
         ],
       },
     ],

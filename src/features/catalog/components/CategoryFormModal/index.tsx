@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Modal } from '../../../../shared/components/Modal';
@@ -27,23 +27,23 @@ export const CategoryFormModal = ({
       category_name: '',
       slug:          '',
       details:       '',
-      parent_no:     null,
+      parent_id:     null,
     },
   });
 
   const nameValue = watch('category_name');
-  const fileRef   = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    if (!open) return;
     if (editItem) {
       reset({
         category_name: editItem.category_name,
         slug:          editItem.slug,
         details:       editItem.details ?? '',
-        parent_no:     editItem.parent_no,
+        parent_id:     (editItem as any).parent_id ?? null, // ← UUID
       });
     } else {
-      reset({ category_name: '', slug: '', details: '', parent_no: null });
+      reset({ category_name: '', slug: '', details: '', parent_id: null });
     }
   }, [editItem, reset, open]);
 
@@ -95,8 +95,7 @@ export const CategoryFormModal = ({
             />
             {errors.category_name && (
               <p className="gng-error-text">
-                <i className="fa-solid fa-circle-exclamation" />
-                {errors.category_name.message}
+                <i className="fa-solid fa-circle-exclamation" /> {errors.category_name.message}
               </p>
             )}
           </div>
@@ -124,8 +123,7 @@ export const CategoryFormModal = ({
             </div>
             {errors.slug && (
               <p className="gng-error-text">
-                <i className="fa-solid fa-circle-exclamation" />
-                {errors.slug.message}
+                <i className="fa-solid fa-circle-exclamation" /> {errors.slug.message}
               </p>
             )}
           </div>
@@ -133,21 +131,21 @@ export const CategoryFormModal = ({
 
         {/* Parent Category */}
         <div className="gng-field">
-          <label className="gng-label" htmlFor="parent_no">
+          <label className="gng-label" htmlFor="parent_id">
             Parent Category
           </label>
           <select
-            id="parent_no"
+            id="parent_id"
             className="gng-select"
-            {...register('parent_no', {
-              setValueAs: (v) => (v === '' || v === null) ? null : Number(v),
+            {...register('parent_id', {
+              setValueAs: (v) => (v === '' || v === null) ? null : v, // ← keep as UUID string
             })}
           >
             <option value="">None (Top Level)</option>
             {categories
-              .filter((c) => c.status === 'A' && c.category_no !== editItem?.category_no)
+              .filter((c) => c.status === 'A' && c.category_id !== editItem?.category_id)
               .map((c) => (
-                <option key={c.category_id} value={c.category_no}>
+                <option key={c.category_id} value={c.category_id}>
                   {c.category_name}
                 </option>
               ))}
@@ -156,9 +154,7 @@ export const CategoryFormModal = ({
 
         {/* Details */}
         <div className="gng-field">
-          <label className="gng-label" htmlFor="details">
-            Details
-          </label>
+          <label className="gng-label" htmlFor="details">Details</label>
           <textarea
             {...register('details')}
             id="details"
@@ -166,30 +162,6 @@ export const CategoryFormModal = ({
             className="gng-textarea"
           />
         </div>
-
-        {/* Image upload */}
-        <div className="gng-field">
-          <label className="gng-label">Category Image</label>
-          <div
-            className={styles.imageUpload}
-            onClick={() => fileRef.current?.click()}
-          >
-            <div className={styles.imagePlaceholder}>
-              <i className="fa-solid fa-image" />
-            </div>
-            <div className={styles.imageInfo}>
-              <p className={styles.imageTitle}>Click to upload image</p>
-              <p className={styles.imageSubtitle}>Supports JPG, PNG (Max 5MB)</p>
-            </div>
-            <input
-              ref={fileRef}
-              type="file"
-              accept="image/*"
-              className={styles.fileInput}
-            />
-          </div>
-        </div>
-
       </div>
     </Modal>
   );

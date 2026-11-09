@@ -2,13 +2,12 @@ import type { AttributeValue } from '../entities/AttributeValue';
 import type { PaginatedResponse } from '../../core/types/common.types';
 
 export interface AttributeValueFilters {
-  page?:  number;
-  limit?: number;
+  page?:   number;
+  limit?:  number;
   status?: string;
 }
 
 export interface CreateAttributeValuePayload {
-  attribute_no:  number;
   value:         string;
   display_label: string;
   color_hex?:    string | null;

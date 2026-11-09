@@ -5,8 +5,12 @@ import { ProductTable } from '../../components/ProductTable';
 import { ProductFormModal } from '../../components/ProductFormModal';
 import type { Product } from '../../../../domain/entities/Product';
 import type { ProductFormValues } from '../../schemas/product.schemas';
+import { useMemo }            from 'react';
+import { ProductRepository }  from '../../../../infrastructure/repositories/ProductRepository';
 
 const ProductListPage = () => {
+  const [imageUploadError, setImageUploadError] = useState<string | null>(null);
+
   const {
     items, total, page, totalPages,
     isLoading, isSubmitting, error,
@@ -43,32 +47,55 @@ const ProductListPage = () => {
   const handleOpenCreate = () => { setEditItem(null); setModalOpen(true); };
   const handleOpenEdit   = (item: Product) => { setEditItem(item); setModalOpen(true); };
 
-  const handleSubmit = async (values: ProductFormValues) => {
+  const productRepo = useMemo(() => new ProductRepository(), []);
+
+  const handleSubmit = async (values: ProductFormValues, pendingImage?: File | null) => {
+    setImageUploadError(null);
+
     if (editItem) {
       await update(editItem.product_id, {
-        category_no:  values.category_no,
-        sku:          values.sku,
-        product_name: values.product_name,
-        slug:         values.slug,
-        description:  values.description,
-        base_price:   values.base_price,
-        is_featured:  values.is_featured,
-        stock_qty:    values.stock_qty,
-        status:       values.status,
+        category_id:    values.category_id,
+        sku:            values.sku,
+        product_name:   values.product_name,
+        slug:           values.slug,
+        description:    values.description ?? undefined,
+        is_featured:    values.is_featured,
+        status:         values.status,
+        features:       values.features       ?? [],
+        specifications: values.specifications ?? [],
       });
+      if (pendingImage) {
+        try {
+          await productRepo.uploadImage(editItem.product_id, pendingImage);
+        } catch (err: unknown) {
+          setImageUploadError(err instanceof Error ? err.message : 'Image upload failed');
+        }
+      }
+
     } else {
-      await create({
-        category_no:  values.category_no,
+      const result = await create({
+        category_id:  values.category_id,
         sku:          values.sku,
         product_name: values.product_name,
         slug:         values.slug,
-        description:  values.description,
-        base_price:   values.base_price,
+        description:  values.description ?? undefined,
         is_featured:  values.is_featured,
-        stock_qty:    values.stock_qty,
       });
+
+      if (pendingImage) {
+        const created = (result as any)?.payload as Product | undefined;
+        if (created?.product_id) {
+          try {
+            await productRepo.uploadImage(created.product_id, pendingImage);
+          } catch (err: unknown) {
+            setImageUploadError(err instanceof Error ? err.message : 'Image upload failed');
+          }
+        }
+      }
     }
+
     setModalOpen(false);
+    fetch();
   };
 
   const handleDelete = async () => {
@@ -78,7 +105,6 @@ const ProductListPage = () => {
   };
 
   const lowStock   = items.filter((p) => p.stock_qty === 0).length;
-  const totalValue = items.reduce((s, p) => s + p.base_price * p.stock_qty, 0);
   const activeCount = items.filter((p) => p.status === 'active').length;
 
   return (
@@ -106,16 +132,6 @@ const ProductListPage = () => {
 
       {/* Stat cards */}
       <div className="gng-stats-row">
-        <div className="gng-stat-card">
-          <div className="gng-stat-icon gng-stat-icon-purple">
-            <i className="fa-solid fa-box-archive" />
-          </div>
-          <div className="gng-stat-info">
-            <p className="gng-stat-label">Total Stock Value</p>
-            <p className="gng-stat-value">${(totalValue / 1000).toFixed(1)}K</p>
-          </div>
-          <span className="gng-stat-badge">+12%</span>
-        </div>
         <div className="gng-stat-card">
           <div className="gng-stat-icon gng-stat-icon-green">
             <i className="fa-solid fa-arrow-trend-up" />
@@ -154,6 +170,15 @@ const ProductListPage = () => {
           <i className="fa-solid fa-circle-exclamation" />
           <span>{error}</span>
           <button type="button" className="gng-error-dismiss" onClick={dismissError}>
+            <i className="fa-solid fa-xmark" />
+          </button>
+        </div>
+      )}
+      {imageUploadError && (
+        <div className="gng-error-alert">
+          <i className="fa-solid fa-circle-exclamation" />
+          <span>Image upload failed: {imageUploadError}</span>
+          <button type="button" className="gng-error-dismiss" onClick={() => setImageUploadError(null)}>
             <i className="fa-solid fa-xmark" />
           </button>
         </div>
